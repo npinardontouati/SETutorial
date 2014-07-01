@@ -1,0 +1,67 @@
+%Style
+\documentclass[11pt]{article}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\parindent 22pt
+
+%Packages
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[table]{xcolor}
+\usepackage{tabu}
+\usepackage{makecell}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage[normalem]{ulem}
+\usepackage{etoolbox}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{ragged2e} 
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage[none]{hyphenat}
+\usepackage{fixltx2e}
+\usepackage{threeparttablex}
+\usepackage[capposition=top]{floatrow}
+\usepackage{subcaption}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usepackage{natbib}
+\definecolor{maroon}{HTML}{990012}
+\usepackage[colorlinks=true,linkcolor=maroon,citecolor=maroon]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usepackage{setspace}
+
+%Functions
+\DeclareMathOperator{\cov}{Cov}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\plim}{plim}
+\DeclareMathOperator{\Emax}{Emax}
+
+%Math Environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{property}[theorem]{Property}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{remark}[theorem]{Remark}
+\newenvironment{proof}{\paragraph{Proof:}}{\hfill$\square$}
+
+%Commands
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+\newcommand{\equald}{\ensuremath{\overset{d}{=}}}
+
+%Logo
+\AddToShipoutPictureBG{%
+  \AtPageUpperLeft{\raisebox{-\height}{\includegraphics[width=1.5cm]{uchicago.png}}}
+}
+
+

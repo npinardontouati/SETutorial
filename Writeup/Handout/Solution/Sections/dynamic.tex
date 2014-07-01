@@ -1,0 +1,312 @@
+\section{Discrete Choice Dynamic Programming}
+Consider the dynamic version of the model in Section \ref{section:model}. The utility function, the budget constraint, and the distribution of the unobserved variables are the same. The dynamics of the model come through the wage process. In particular, $w_{it}$ increases with work experience, $h_{it}$. This equals the total number of periods that the woman in household $i$ accumulates in all the periods previous to $t$:
+\begin{equation}
+h_{it} = \sum\limits_{\tau=1}^{t-1} d_{i\tau},
+\end{equation} 
+\noindent where $h_{i1} = 0$ for simplicity. The wage function is
+\begin{equation}
+w_{it} = z_{i}\gamma_{1} + \gamma_{2}h_{it} + \eta_{it}.
+\end{equation} 
+
+\noindent For simplicity, the variables $\kappa_{it}$, $n_{it}$, $z_{it}$ are non-stochastic and time invariant.
+
+\begin{exercise} (Dynamic Programming Set-up)
+Write down the household's problem for each period $t$. Let $\delta$ be the discount factor, $\Omega_{it}$ the state space, and $\Omega_{it}^-$ the observed state space. Write down the elements in $\Omega_{it},\Omega_{it}^-$.\\
+\noindent Answer:\\	
+\noindent The problem is
+\begin{equation}
+\max_{d_{it}} \mathbb{E}\left\{ \sum\limits_{\tau=t}^{T}\delta^{\tau-t} \left[U^{1}_{i\tau}d_{i\tau} + U^{0}_{i\tau}\left( 1-d_{i\tau} \right)\right] \middle| \Omega_{it}\right\} 
+\end{equation}
+
+\noindent where
+\begin{eqnarray}
+U^{1}_{i\tau} &=& y_{i\tau} + z_{i}\gamma_{1} + \gamma_{2}h_{i\tau} + \eta_{i\tau} - \pi n_{i}\\
+U^{0}_{i\tau} &=& y_{i\tau} + \beta_{\kappa}\kappa_{i} + \beta_{n}n_{i} + \epsilon_{i\tau}\\
+\Omega_{it} &=& \left\{ y_{it}, z_{i}, n_{i}, \kappa_{i}, \epsilon_{it}, \eta_{it}, h_{it}\right\}\\
+\Omega_{it}^- &=& \left\{ y_{it}, z_{i}, n_{i}, \kappa_{i}, h_{it}\right\}
+\end{eqnarray}
+\end{exercise}
+\begin{exercise} (Bellman Equation)
+Write down the recursive formulation of the household's problem.\\
+\noindent Answer:\\
+\noindent Write down the value function as the maximization over the two alternative-specific value functions:
+\begin{equation}
+V_t\left(\Omega_{it}\right) = \max_{d_{it} \in \{0, 1\}} \left\{V^{0}_{t} \left(\Omega_{it} \right),V^{1}_{t} \left(\Omega_{it} \right)\right\}
+\end{equation}
+\noindent where
+
+\begin{eqnarray}
+V^{k}_t =
+\begin{cases}
+U^{k}_{it}\left(\Omega_{it}\right) + \delta \mathbb{E} \left[V_{t+1}\left(\Omega_{i,t+1} \right) \middle| \Omega_{it}, d_{it} = k \right], & \text{for } t < T \\
+U^{k}_{iT}\left(\Omega_{iT}\right),& \text{for } t = T
+\end{cases}
+\end{eqnarray}
+\end{exercise}
+
+\begin{exercise} (Solution)
+Solve the dynamic problem of the household for an arbitrary time horizon, $T$, and $T>3$. Hint: use backward induction.
+\end{exercise}
+
+\noindent\textbf{Solution:}
+\noindent (Omit the subscript $i$ for simplicity. For the final period, $t = T$, the value functions for $d_{T}=1$ and $d_{T}=0$ are, respectively:\\
+\begin{eqnarray}
+V^{1}_{T}\left(\Omega_{T}\right) &=& U^{1}_{T}\left(\Omega_{T}\right) = y_{T} + z\gamma_1 + h_{T}\gamma_2 + \eta_{T} - \pi n \label{eq:valueFun1_T} \\
+V^{0}_{T}\left(\Omega_{T}\right) &=& U^{0}_{T}\left(\Omega_{T}\right) = y_{T} + \beta_\kappa \kappa + \beta_n n + \epsilon_T \label{eq:valueFun2_T}.
+\end{eqnarray}
+
+\indent Let:
+\begin{eqnarray}
+W^1 \left(z,h_T,n\right) & \equiv & z \gamma_1 + h_T \gamma_2 - \pi n\\
+W^0 \left(\kappa,n\right) & \equiv & \beta_\kappa \kappa + \beta_n n.
+\end{eqnarray}
+
+\indent Thus, 
+\begin{eqnarray}
+V_T^1\left(\Omega_T\right) &=& y_T + W^1\left(z,h_T,n\right) + \eta_T \\
+V_T^0\left(\Omega_T\right) &=& y_T + W^0\left(\kappa,n\right) + \epsilon_T.
+\end{eqnarray}
+
+\indent This implies
+\begin{equation}
+V^1_T - V^0_T =  W^1\left(z,h_T,n\right) + \eta_T -   W^0\left(\kappa,n\right) - \epsilon_T.
+\end{equation}
+
+\indent Define
+\begin{eqnarray}
+\xi_T & \equiv & \eta_T - \epsilon_T \\
+\xi^{*}_T\left(z,h_T,n,\kappa\right) & \equiv & W^1\left(z,h_T,n\right) - W^0\left(\kappa,n\right) \label{eq:policyFun1_T}
+\end{eqnarray}
+
+\noindent and note that $\xi_T^*$ does not depend on $y_T$ because this cancels out in the subtraction of $W^0$ from $W^1$. Hence:
+\begin{eqnarray}
+d_T=1 \iff \xi_T > -\xi^{*}_T\left(z,h_T,n,\kappa\right) \label{eq:policyFun2_T}
+\end{eqnarray}
+
+\indent For $t = T-1$
+\begin{eqnarray}
+V^{1}_{T-1}\left(\Omega_{T-1}\right) &=& U^{1}_{T-1} + 
+\delta \mathbb{E} \left\{ V_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}=1\right\} \\
+V^{0}_{T-1}\left(\Omega_{T-1}\right) &=& U^{0}_{T-1} + 
+\delta \mathbb{E} \left\{ V_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}=0\right\}.
+\end{eqnarray}
+
+\noindent \ldots so that it is necessary to calculate $\mathbb{E} \left\{ V_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}\right\}$:
+\begin{eqnarray}
+\mathbb{E} \left\{ V_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}\right\} &=& \mathbb{E} \left\{ \max\left\{ V^{1}_T\left(\Omega_T\right), V^{0}_T\left(\Omega_T\right) \right\} \middle| \Omega_{T-1}, d_{T-1} \right\} \nonumber \\
+&=& \mathbb{E} \left\{ V^{1}_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}, V^{1}_T\left(\Omega_T\right) \geq V^{0}_T\left(\Omega_T\right) \right\} \nonumber \\
+& & \times \Pr\left(V^1_T\left(\Omega_T\right) \geq V^0_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1} \right) \nonumber \\
+& & + \mathbb{E} \left\{ V^{0}_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}, V^{1}_T\left(\Omega_T\right) < V^{0}_T\left(\Omega_T\right) \right\} \nonumber \\
+& & \times \Pr\left(V^1_T\left(\Omega_T\right) < V^0_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1} \right)
+\end{eqnarray}
+\noindent where
+\begin{eqnarray}
+\Pr\left(V^1_T\left(\Omega_T\right) \geq V^0_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1} \right) &=& \Pr\left(\xi_T \geq - \xi^*_T\left(z, h_{T-1}+d_{T-1},n,\kappa\right)\right) \nonumber \\
+&=& 1 - \Phi\left( -\frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right) \nonumber \\
+&=& \Phi\left( \frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right)
+\end{eqnarray}
+
+\begin{eqnarray}
+\mathbb{E} \left\{ V^{1}_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}, V^{1}_T\left(\Omega_T\right) \geq V^{0}_T\left(\Omega_T\right) \right\} &=& \mathbb{E} [y_T | \Omega_{T-1}] + W^1\left( z,h_{T-1}+d_{T-1},n\right) \nonumber \\
+& & +\mathbb{E} \left\{\eta_T \middle| \xi_T \geq - \xi^*_T\left( z, h_{T-1}+d_{T-1}, n, \kappa \right)\right\} \nonumber \\
+&=& \mathbb{E} [y_T | \Omega_{T-1}] + W^1\left( z,h_{T-1}+d_{T-1},n \right) \nonumber \\
+& & +  \frac{\sigma_{\eta, \xi}}{\sigma_\xi} \frac{\phi\left(-\frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right)}{1-\Phi\left(-\frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right)}
+\end{eqnarray}
+
+\begin{eqnarray}
+\mathbb{E} \left\{ V^{0}_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}, V^{1}_T\left(\Omega_T\right) < V^{0}_T\left(\Omega_T\right) \right\}
+&=& \mathbb{E} [y_T | \Omega_{T-1}] + W^0\left(\kappa, n\right) \nonumber \\
+& & + \mathbb{E} \left\{\epsilon_T \middle| \xi_T < -\xi^*_T\left(z, h_{T-1} + d_{T-1}, n, \kappa \right) \right\} \nonumber \\
+&=& \mathbb{E} [y_T | \Omega_{T-1}] + W^0\left(\kappa, n\right) \nonumber \\
+& & - \frac{\sigma_{\epsilon, \xi}}{\sigma_\xi} \frac{\phi\left(-\frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right)}{\Phi\left(-\frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right)}.
+\end{eqnarray}
+
+\indent Then, 
+\begin{eqnarray}
+\mathbb{E} \left\{ V_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}\right\} &=& \mathbb{E} [y_T | \Omega_{T-1}] + \Phi\left( \frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right) \times W^1\left( z,h_{T-1}+d_{T-1},n \right) \nonumber \\
+& & + \left(1 - \Phi\left( \frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right) \right) \times  W^0\left(\kappa, n\right) \nonumber \\
+& & + \sigma_\xi \times \phi\left( \frac{- \xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right).
+\end{eqnarray}
+
+\indent Let 
+\begin{eqnarray}
+\Emax_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right) &\equiv & \Phi\left( \frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right) \times W^1\left( z,h_{T-1}+d_{T-1},n \right) \nonumber \\
+& & + \left(1 - \Phi\left( \frac{\xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right) \right) \times  W^0\left(\kappa, n\right) \nonumber \\
+& & + \sigma_\xi \times \phi\left( \frac{- \xi^*_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right)}{\sigma_\xi}\right) 
+\end{eqnarray}
+
+\noindent \ldots so that
+\begin{equation}
+\mathbb{E} \left\{ V_T\left(\Omega_T\right) \middle| \Omega_{T-1}, d_{T-1}\right\} = \mathbb{E} [y_T | \Omega_{T-1}]  + \Emax_T\left(z,h_{T-1}+d_{T-1},n,\kappa\right).  
+\end{equation}
+
+\indent This enables to write
+\begin{eqnarray}
+V^1_{T-1} - V^0_{T-1} &=& W^1\left( z, h_{T-1}, n\right) - W^0\left( \kappa, n\right) + \eta_{T-1} - \epsilon_{T-1} \nonumber \\
+& & + \delta [ \Emax_T\left(z, h_{T-1}+1, n, \kappa\right) - \Emax_T\left(z, h_{T-1}, n, \kappa \right)]
+\end{eqnarray}
+\noindent and $d_{T-1} = 1 \iff \xi_{T-1} > -\xi^*_{T-1}\left(z, h_{T-1}, n, \kappa\right)$ where
+\begin{eqnarray}
+\xi^*_{T-1}\left(z, h_{T-1}, n, \kappa \right) &\equiv & W^1\left(z, h_{T-1}, n\right) - W^0\left(\kappa, n\right) \nonumber \\
+& &+\ \delta [ \Emax_T\left(z, h_{T-1}+1, n, \kappa\right) - \Emax_T\left(z, h_{T-1}, n, \kappa \right)].
+\end{eqnarray}
+
+\indent Importantly, $\mathbb{E} [y_T | \Omega_{T-1}]$ and $y_{T-1}$ cancel out and do not appear in $\xi_{T-1}^*$.
+
+\indent Summarizing the solutions for $T-1$, the value functions for $t = T-1$ are:
+\begin{eqnarray}
+V_{T-1}\left(\Omega_{T-1}\right) &=& \max_{d_{T-1} \in \{0, 1\}} \left\{V^{0}_{T-1} \left(\Omega_{T-1} \right),V^{1}_{T-1} \left(\Omega_{T-1} \right)\right\} \label{eq:valueFun_T-1} \\ 
+V^{1}_{T-1} \left(\Omega_{T-1} \right) &=& y_{T-1} + W^{1} \left(z,h_{T-1},n\right) + \eta_{T-1} \nonumber \\
+& & + \delta \left( \mathbb{E} [y_T | \Omega_{T-1}] + \Emax_T \left(z,h_{T-1}+1,n,\kappa \right) \right) \\
+V^{0}_{T-1} \left(\Omega_{T-1} \right) &=& y_{T-1} + W^0 \left( \kappa, n \right) + \epsilon_{T-1} \nonumber \\
+& & + \delta \left( \mathbb{E} [y_T | \Omega_{T-1}] + \Emax_T \left(z,h_{T-1},n,\kappa \right) \right)
+\end{eqnarray}
+
+\noindent and the policy functions for $t = T-1$ are:
+\begin{eqnarray}
+\xi^*_{T-1}\left(z, h_{T-1}, n, \kappa \right) &=& W^1\left(z, h_{T-1}, n\right) - W^0\left(\kappa, n\right) \nonumber \\
+& &+\ \delta [ \Emax_T\left(z, h_{T-1}+1, n, \kappa\right) - \Emax_T\left(z, h_{T-1}, n, \kappa \right)] \\
+d_{T-1} = 1 & \iff &  \xi_{T-1} > -\xi^*_{T-1}\left(z, h_{T-1}, n, \kappa\right) \label{eq:policyFun_T-1}.
+\end{eqnarray}
+
+\indent Next, we use backward induction to solve the optimization problems for periods T-2 to 1. The strategy is to show that if in period $T-j$, $\forall j=1,...,T-2$, the solutions are in the same form as in Equations \eqref{eq:valueFun_T-1} to \eqref{eq:policyFun_T-1}, then the solutions for period $T-j -1$ are also in the same form as in Equations \eqref{eq:valueFun_T-1} to \eqref{eq:policyFun_T-1}.
+
+\indent Mathematically, assume that the value and policy functions for period $T-j$, $\forall j=1,...,T-2$ are:
+
+\begin{eqnarray}
+V_{T-j}\left(\Omega_{T-j}\right) &=& \max_{d_{T-j} \in \{0, 1\}} \left\{V^{0}_{T-j} \left(\Omega_{T-j} \right),V^{1}_{T-j} \left(\Omega_{T-j} \right)\right\}  \label{eq:valueFun_T-j} \\ 
+V^{1}_{T-j} \left(\Omega_{T-j} \right) &=& y_{T-j} + W^{1} \left(z,h_{T-j},n\right) + \eta_{T-j} \nonumber \\
+& & + \sum_{k=1}^{j} \delta^{k} \mathbb{E} [y_{T-j+k} | \Omega_{T-j}] \nonumber \\
+& & + \delta \Emax_{T-j+1} \left(z,h_{T-j}+1,n,\kappa \right) \\
+V^{0}_{T-j} \left(\Omega_{T-j} \right) &=& y_{T-j} + W^0 \left( \kappa, n \right) + \epsilon_{T-j} \nonumber \\
+& & + \sum_{k=1}^{j} \delta^{k} \mathbb{E} [y_{T-j+k} | \Omega_{T-j}] \nonumber \\
+& & + \delta \Emax_{T-j+1} \left(z,h_{T-j},n,\kappa \right) \\
+\xi^*_{T-j}\left(z, h_{T-j}, n, \kappa \right) &=& W^1\left(z, h_{T-j}, n\right) - W^0\left(\kappa, n\right) \nonumber \\
+& &+\ \delta [ \Emax_{T-j}\left(z, h_{T-j}+1, n, \kappa\right) - \Emax_{T-j}\left(z, h_{T-j}, n, \kappa \right)] \\
+d_{T-j} = 1 & \iff &  \xi_{T-j} > -\xi^*_{T-j}\left(z, h_{T-j}, n, \kappa\right) \label{eq:policyFun_T-j}.
+\end{eqnarray}
+
+\indent Notice that the solutions for period $T-1$ as shown in Equations \eqref{eq:valueFun_T-1} to \eqref{eq:policyFun_T-1} are the same as in Equations \eqref{eq:policyFun_T-j} to \eqref{eq:valueFun_T-j} with $j = 1$.
+
+\indent Then, at $t = T - j -1$:
+\begin{eqnarray*}
+V^{1}_{T-j-1}\left(\Omega_{T-j-1}\right) &=& U^{1}_{T-j-1} + 
+\delta \mathbb{E} \left\{ V_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}=1\right\} \\
+V^{0}_{T-j-1}\left(\Omega_{T-j-1}\right) &=& U^{0}_{T-j-1} + 
+\delta \mathbb{E} \left\{ V_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}=0\right\}
+\end{eqnarray*}
+
+\indent To calculate $\mathbb{E} \left\{ V_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}\right\}$, we have:
+\begin{eqnarray}
+\mathbb{E} \left\{ V_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}\right\} &=& \mathbb{E} \left\{ \max\left\{ V^{1}_{T-j}\left(\Omega_{T-j}\right), V^{0}_{T-j}\left(\Omega_{T-j}\right) \right\} \middle| \Omega_{T-j-1}, d_{T-j-1} \right\} \nonumber \\
+&=& \mathbb{E} \left\{ V^{1}_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}, V^{1}_{T-j}\left(\Omega_{T-j}\right) \geq V^{0}_{T-j}\left(\Omega_{T-j}\right) \right\} \nonumber \\
+& & \times \Pr\left(V^1_{T-j}\left(\Omega_{T-j}\right) \geq V^0_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1} \right) \nonumber \\
+& & + \mathbb{E} \left\{ V^{0}_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}, V^{1}_{T-j}\left(\Omega_{T-j}\right) < V^{0}_{T-j}\left(\Omega_{T-j}\right) \right\} \nonumber \\
+& & \times \Pr\left(V^1_{T-j}\left(\Omega_{T-j}\right) < V^0_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1} \right)
+\end{eqnarray}
+
+\noindent in which we have:
+\begin{eqnarray}
+\Pr\left(V^1_{T-j}\left(\Omega_{T-j}\right) \geq V^0_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1} \right) &=& \Pr \left(\xi_{T-j} > -\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right) \right) \nonumber \\
+&=& 1 - \Phi \left(-\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi}\right) \nonumber \\
+&=& \Phi \left(\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi}\right)
+\end{eqnarray}
+
+\begin{eqnarray}
+\mathbb{E} \left\{ V^{1}_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}, V^{1}_{T-j}\left(\Omega_{T-j}\right) \geq V^{0}_{T-j}\left(\Omega_{T-j}\right) \right\} &=& W^{1} \left(z, h_{T-j-1} + d_{T-j-1}, n \right) \nonumber \\
+& & + \sum_{k=0}^{j} \delta^{k} \mathbb{E} [y_{T-j+k} | \Omega_{T-j-1}] \nonumber \\
+& & + \delta \Emax_{T-j+1} \left(z, h_{T-j-1} + d_{T-j-1} + 1, n, \kappa \right) \nonumber \\
+& & + \frac{\sigma_{\eta, \xi}}{\sigma_\xi} \frac{\phi\left(-\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi} \right)}{\Phi\left( \frac{\xi^*_{T-j-1}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi}\right)}   
+\end{eqnarray}
+ 
+\begin{eqnarray}
+\mathbb{E} \left\{ V^{0}_{T-j}\left(\Omega_{T-j}\right) | \Omega_{T-j-1}, d_{T-j-1}, V^{1}_{T-j}\left(\Omega_{T-j}\right) < V^{0}_{T-j}\left(\Omega_{T-j}\right) \right\}
+&=& W^0\left(\kappa, n \right) \nonumber \\
+& & + \sum_{k=0}^{j} \delta^{k} \mathbb{E} [y_{T-j+k} | \Omega_{T-j-1}] \nonumber \\
+& & + \delta \Emax_{T-j+1} \left(z, h_{T-j-1} + d_{T-j-1}, n, \kappa \right) \nonumber \\
+& & - \frac{\sigma_{\epsilon, \xi}}{\sigma_\xi} \frac{\phi\left(-\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1},n,\kappa\right)}{\sigma_\xi}\right)}{\Phi\left(-\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi}\right)}
+\end{eqnarray} 
+
+\indent So,
+\begin{eqnarray}
+\mathbb{E} \left\{ V_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}\right\} &=& \sum_{k=0}^{j} \delta^{k} \mathbb{E} [y_{T-j+k} | \Omega_{T-j-1}] \nonumber \\
+& & + ( W^{1} \left(z, h_{T-j-1} + d_{T-j-1}, n \right) \nonumber \\
+& & + \delta \Emax_{T-j+1} \left(z, h_{T-j-1} + d_{T-j-1} + 1, n, \kappa \right) ) \nonumber \\
+& & \times \Phi \left(\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi}\right) \nonumber \\
+& & + \left( W^0\left(\kappa, n \right) + \delta \Emax_{T-j+1} \left(z, h_{T-j-1} + d_{T-j-1}, n, \kappa \right) \right) \nonumber \\
+& & \times \left( 1- \Phi \left(\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi}\right) \right) \nonumber \\
+& & + \sigma_\xi \phi \left(-\frac{\xi^*_{T-1}\left(z, h_{T-2}+d_{T-2}, n, \kappa \right)}{\sigma_\xi}\right) 
+\end{eqnarray}
+
+\indent Define:
+\begin{eqnarray}
+\Emax_{T-j} \left( z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right) & \equiv & ( W^{1} \left(z, h_{T-j-1} + d_{T-j-1}, n \right) \nonumber \\
+& & + \delta \Emax_{T-j+1} \left(z, h_{T-j-1} + d_{T-j-1} + 1, n, \kappa \right) ) \nonumber \\
+& & \times \Phi \left(\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi}\right) \nonumber \\
+& & + \left( W^0\left(\kappa, n \right) + \delta \Emax_{T-j+1} \left(z, h_{T-j-1} + d_{T-j-1}, n, \kappa \right) \right) \nonumber \\
+& & \times \left( 1- \Phi \left(\frac{\xi^*_{T-j}\left(z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)}{\sigma_\xi}\right) \right) \nonumber \\
+& & + \sigma_\xi \phi \left(-\frac{\xi^*_{T-1}\left(z, h_{T-2}+d_{T-2}, n, \kappa \right)}{\sigma_\xi}\right)
+\end{eqnarray}
+
+\indent Then we have:
+\begin{eqnarray}
+\mathbb{E} \left\{ V_{T-j}\left(\Omega_{T-j}\right) \middle| \Omega_{T-j-1}, d_{T-j-1}\right\} &=&  \sum_{k=0}^{j} \delta^{k} \mathbb{E} [y_{T-j+k} | \Omega_{T-j-1}] \nonumber \\
+& & + \Emax_{T-j} \left( z, h_{T-j-1}+d_{T-j-1}, n, \kappa \right)
+\end{eqnarray}
+
+\indent Therefore, we have:
+\begin{eqnarray}
+V^1_{T-j-1} - V^0_{T-j-1} &=& W^1\left( z, h_{T-j-1}, n\right) - W^0\left( \kappa, n\right) + \eta_{T-j-1} - \epsilon_{T-j-1} \nonumber \\
+& & + \delta [ \Emax_{T-j} \left( z, h_{T-j-1}+1, n, \kappa \right) \nonumber \\
+& & - \Emax_{T-j} \left(z, h_{T-j-1}, n, \kappa \right)]
+\end{eqnarray}
+
+\noindent and $d_{T-j-1} = 1 \iff $:
+\begin{eqnarray}
+\xi_{T-j-1} > -\xi^*_{T-j-1} \left(z, h_{T-j-1}, n, \kappa \right)
+\end{eqnarray}
+
+\noindent in which:
+\begin{eqnarray}
+\xi^*_{T-j-1} \left(z, h_{T-j-1}, n, \kappa \right) &=& W^1\left( z, h_{T-j-1}, n\right) - W^0\left( \kappa, n\right) \nonumber \\
+& & + \delta [ \Emax_{T-j} \left( z, h_{T-j-1}+1, n, \kappa \right) \nonumber \\
+& & - \Emax_{T-j} \left(z, h_{T-j-1}, n, \kappa \right)] \label{eq:policyFun_T-j-1}
+\end{eqnarray}
+
+\indent And the value functions for $t = T-j-1 $ are:
+\begin{eqnarray}
+V^{1}_{T-j-1}\left(\Omega_{T-j-1}\right) &=& y_{T-j-1} + W^1 \left(z,h_{T-j-1},n \right) + \eta_{T-j-1} \nonumber \\
+& & + \sum_{k=1}^{j+1} \delta^{k} \mathbb{E} [y_{T-j+k} | \Omega_{T-j-1}] + \delta \Emax_{T-j} \left( z, h_{T-j-1}+1, n, \kappa \right) \\
+V^{0}_{T-j-1}\left(\Omega_{T-j-1}\right) &=& y_{T-j-1} + W^0 \left( \kappa, n \right) + \epsilon_{T-j-1} \nonumber \\
+& & + \sum_{k=1}^{j+1} \delta^{k} \mathbb{E} [y_{T-j+k} | \Omega_{T-j-1}] + \delta \Emax_{T-j} \left( z, h_{T-j-1}, n, \kappa \right) \label{eq:valueFun_T-j-1}
+\end{eqnarray}
+
+\indent Clearly, the solutions shown in Equations \eqref{eq:policyFun_T-j-1} to \eqref{eq:valueFun_T-j-1} match with the solutions shown in Equations \eqref{eq:valueFun_T-j} to \eqref{eq:policyFun_T-j} by replacing $j$ in Equations \eqref{eq:valueFun_T-j} to \eqref{eq:policyFun_T-j}  with $j + 1$.   
+
+\indent To summarize, Equations \eqref{eq:valueFun1_T}, \eqref{eq:valueFun2_T}, \eqref{eq:policyFun1_T} and \eqref{eq:policyFun2_T} are the solutions to the dynamic optimization problem at time $T$, and Equations \eqref{eq:valueFun_T-j} to \eqref{eq:policyFun_T-j} are the optimal solutions at time $1, ..., T-1$.
+
+\subsection{Simulation and Estimation}
+
+\begin{exercise} (Likelihood)
+What is the individual likelihood of household $i$ at time $t$? What is the sample likelihood across all periods?\\
+\noindent Answer:\\
+\noindent The individual and sample likelihoods are the same as in the static case (see Section \ref{section:model}). What changes are the definitions of $w_{it}, \xi_{it}^*$.
+\end{exercise}
+
+\begin{exercise} (Simulation) \label{exercise:simulation}
+Simulate a balanced data set with $N = 1000$ observations and $T=6$. Use the same parameters as in the static model in Section \ref{section:models}. For the parameters that are exclusive of the dynamic model use the following: $\gamma_2 = 0.9,\delta = 0.85$. Set the experience of every woman to zero in $t=1$. Save the data in a ``.csv'' file.\\
+\noindent Answer:\\
+See ``womansdsimulation.jl''.
+\end{exercise}
+
+\begin{exercise} (Estimation)
+Estimate the parameters of the model by ML. Compare your results with the parameters in Exercise \ref{exercise:simulation}.\\
+\noindent Answer:\\
+See ``womansdestimation.jl''
+\end{exercise}
+
+\begin{exercise}
+In Section \ref{section:models} you learn how to trust more your estimates, obtain standard errors, and to parallelize these two processes. You could do that here too. As you may have noticed, not only estimation a large number of times these process could be computationally intensive but also simulating many samples. To learn something different, parallelize the simulation of $H$ samples.\\
+\noindent Answer:\\
+See files ``womansdmsimulationf.jl'' and ``womandparallelmsimulation''.
+\end{exercise}

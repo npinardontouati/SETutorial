@@ -1,0 +1,72 @@
+\section{Introduction} \label{section:intro}
+\noindent The objective of this document is to build on \citet{keane2011structural} and clarify Structural Estimation methods and its computational implementations. The focus is on the estimation of Discrete Choice Dynamic Programming (DCDP) models. In particular, the idea is to (i) illustrate the basic ideas and concepts; (ii) provide examples; (iii) become familiar with computational methods.\\
+
+\subsection{DCDP as an Extension of the Static Discrete Choice Framework} \label{section:extension}
+DCDP models are a natural generalization of static discrete choice models. They share the latent variable specification. To illustrate this, consider a binary choice model in which an economic agent, $i$, makes a choice at each discrete period $t$. $\mathcal{I}$ indexes individuals and $\mathcal{T}$ time. She has two alternatives: $d_{it} \in \{ 0,1\}$. A latent variable, $v_{it}^*$, which is the difference in the expected payoffs between the choices $d_{it} = 1$ and $d_{it} = 0$, determines the outcome. Specifically, if $v_{it}^*$ is greater than certain threshold, the agent chooses $d_{it} = 1$. Without loss of generality, the threshold is normalized to zero. Thus, $d_{it} = 1$ iff $v_{it}^* \geq 0$ and $d_{it} = 0$ otherwise.\\
+\begin{exercise} (Identification of the Probit Model) \label{exercise:idenprobit}
+Model a bivariate, static, discrete choice through a Probit model. The convention is that in this model the unobserved variable is normally distributed. (i) Show that you can normalize the threshold that defines the agent's decision without loss of generality;  (ii) why is the normalization without loss of generality?; (iii) what other normalization can you make without loss of generality in your Probit model?; (iv) what does this normalization implies with respect to the distribution of the unobserved variable? (v) are you able to identify all the parameters of the model?; (vi) how does identification and the normalizations relate to each other? Hint: think of the scalar and spatial identification issues that the structure of a Probit model generates.\\
+\noindent Answer:\\
+\noindent See the separate handout. 
+\end{exercise}
+
+\begin{exercise} (Computational Econometrics: Warm-up)
+Solve the exercise ``Warmup.pdf'' posted on the web site. The objective of this is for you to go from the basics (i.e., installing Julia in your computer and setting up the function maximizer) to an exercise in which you can maximize a likelihood function.\\
+\noindent Answer:\\
+\noindent See the separate handout. 
+\end{exercise}
+
+\begin{exercise} (Estimation of the Probit Model)
+From Exercise \ref{exercise:idenprobit} you have clear the setup of the Probit model. Make sure you know what the correct parametric assumptions are and what can you identify in the model. Simulate all the data necessary to estimate a Probit model. The instructions are loose in purpose because we want to evaluate your ability to create the data and estimate the model from scratch. Hint: simulate a single independent variable. This is sufficient for the purposes of this exercise.\\
+\noindent Answer:\\
+\noindent See the separate handout. 
+\end{exercise}
+
+\indent In general, the latent variable is a function of three variables: (i) $\tilde{D_{it}}$, a vector of the history of past choices (i.e., $d_{i\tau}, \tau = 0, \ldots, t-1$); (ii) $\tilde{X_{it}}$, a vector of contemporaneous and lagged values of $J$ variables (i.e., $X_{ij\tau},  j = 1, \ldots, J; \tau = 0, \ldots, t-1$); (iii) $\tilde{\epsilon_{it}}$, a vector of contemporaneous and lagged  unobserved variables (i.e., $\epsilon_{i\tau}, \tau = 0, \ldots, t-1$). Thus, the general decision rule of the agent is:
+\begin{eqnarray}
+d_{it} =
+\begin{cases}
+1 \  \text{if }  v_{it}^* \left( \tilde{D_{it}}, \tilde{X_{it}}, \tilde{\epsilon_{it}} \right) \ \geq 0  \\
+0 \  \text{if }  v_{it}^* \left( \tilde{D_{it}}, \tilde{X_{it}}, \tilde{\epsilon_{it}} \right)  < 0. \label{eq:latent}
+\end{cases}
+\end{eqnarray}
+
+\indent Any binary choice model is a special cases of this formulation, no matter if they are static or dynamic. The model is dynamic if agents are forward looking and either $v_{it}^* (\cdot)$ contains past choices, $\tilde{D_{it}}$, or unobserved variables in $\tilde{\epsilon_{it}}$ that are serially correlated. The model is static if (i) agents are myopic so that even when they accumulate information on past decisions or past unobserved variables they do not take them into account; (ii) agents are forward looking but there is no link between present and past decisions and unobserved variables.
+
+\begin{remark}
+In this context, forward looking refers to the behavior in which agents consider how their present decisions affect their future welfare. The exact way in which they form the expectations on how their welfare is affected is a modeling decision that the researcher makes.
+\end{remark}
+
+\begin{exercise}
+The last paragraphs clarify that there is a general framework to think of either static or dynamic binary choice models. Argue that this can be generalized for multivariate models. Write down a general framework for the multivariate case that encompasses static and dynamic models. Specify conditions under which the model is either static or dynamic.\\
+\noindent Answer:\\
+\noindent In the case of the binary choice, $v_{it}^* \left( \tilde{D_{it}}, \tilde{X_{it}}, \tilde{\epsilon_{it}} \right)$ is a function of the utility individual $i$ has at time $t$ in each of the states. Often, $v(\cdot)$, is actually the utility in one state less the utility in the other. The rule is simple. In a multiple choice framework a bit more notation is necessary. The choice set, $\mathcal{S}$, has a cardinality greater or equal than $3$, $\# \mathcal{S} \geq 3$. Let $U_{it}(s) \left( \tilde{D_{it}}, \tilde{X_{it}}, \tilde{\epsilon_{it}} \right)$ be the utility of individual $i$ at time $t$ in state (i.e., when she chooses) $s$, $\forall s \in \mathcal{S}$. Then,
+ \begin{eqnarray}
+   D_{it}(j) = \left\{
+     \begin{array}{lr}
+       1  : \ \underset{s \in \mathcal{S}}{\operatorname{argmax}} \ \{U_{it}(s)\} = j \\
+       0  : \ \text{otherwise}. 
+     \end{array}
+   \right.
+\end{eqnarray}
+\noindent with $\sum \limits _{s \in \mathcal{S}} D_{it}(s) = 1$. $\tilde{D_{it}}$ is still the set that encodes all the past choices individuals make before $t$,. This model encompasses both the static and the dynamic cases. The model is dynamic if there is a link between between $t$ and $t-1$ in any of the variables $\tilde{D_{it}}, \tilde{X_{it}}, \tilde{\epsilon_{it}}$. 
+\end{exercise}
+
+\indent This document follows \citet{keane2011structural} and argues that there are three broad research goals in the estimation of DCDP models:
+\begin{enumerate}
+\item Test a prediction of the theory: how an observed variable in $v_{it}^*$ affects $d_{it}$.
+\item Determine the effect of an endogenous shift: how a change in $\tilde{D_{it}}$ or $\tilde{X_{it}}$ affects $d_{it}$.
+\item Determine the effect of an exogenous shift: how a change in something not in $\tilde{D_{it}}$ or $\tilde{X_{it}}$ affects $d_{it}$.
+\end{enumerate}
+
+\indent The objective is to answer these questions \emph{caeteris paribus}. \emph{Caeteris paribus} in this context not only means that the ``rest'' of the variables are held fixed. It implies that the the unobserved variables are also held fixed and that their joint distribution is not altered.\footnote{See \citet{heckman2013causal} for a discussion on what ``fixing'' in Economics means and how it differs from ``conditioning'' in Statistics.} Different modeling decisions and estimation approaches enable to attain these research goals to different extents (see Section \ref{section:models}).
+
+ 
+
+
+ 
+
+
+
+
+
+

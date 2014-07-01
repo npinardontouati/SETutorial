@@ -1,0 +1,166 @@
+\section{Model Classifications, Estimation Strategies, and Research Goals} \label{section:models}
+In this section we consider the static model in \citet{keane2011structural} to illustrate how different modeling approaches and estimation strategies enable to attain the research goals in Section \ref{section:extension}.
+\subsection{Woman's Labor Force Participation} \label{section:model}
+Consider the following model of the labor force participation of a married woman. The model is unitary and the couple's $i$ utility at time $t$ is
+\begin{equation}
+U_{it} = U \left( c_{it}, 1-d_{it}; n_{it}(1-d_{it}), \kappa_{it}(1-d_{it}), \epsilon_{it} (1-d_{it}) \right) \label{eq:utility}
+\end{equation}
+\noindent where $c_{it}$ is consumption, $d_{it}$ is an indicator of the woman's labor supply ($1$ if she works and $0$ if she does not), $n_{it}$ is the number of young children that the couple has, $\kappa_{it}$ and $\epsilon_{it}$ are observed and unobserved factors that shift the couple's valuation of home production. Actually, $t$ corresponds to the couple's marriage duration. The utility function satisfies standard concavity and Inada conditions.\\
+\indent The wife receives a wage offer $w_{it}$ in each period $t$ and the husband, who works every period, receives an income $y_{it}$. If the wife works, the family needs to pay child care, $\pi$ for each child in each period. Hence, the budget constraint is
+\begin{equation}
+c_{it} = y_{it} + w_{it} d_{it} - \pi n_{it} d_{it} \label{eq:budget}.
+\end{equation}
+
+\indent In this simple model, a wage function determines the wage offer that women receive:
+\begin{equation}
+w_{it} = w(z_{it}, \eta_{it}) \label{eq:wage}
+\end{equation} 
+
+\noindent where $z_{it}$ are observed and $\eta_{it}$ unobserved factors. By assumption, $\epsilon_{it}, \eta_{it}$ are not serially correlated between each other.
+
+\begin{exercise}
+Is this model static or dynamic?
+\end{exercise}
+
+\begin{exercise}
+What are the variables that you expect to find in $z_{it}$?
+\end{exercise}
+
+\begin{exercise}
+Why is no serial correlation between $\epsilon_{it}, \eta_{it}$ a relevant assumption? Is it a technical or an economic assumption? Is it realistic? Hint: go ahead and answer the reminder of the exercise and then come back to this question.
+\end{exercise}
+
+\indent This structure, actually, is enough to describe the problem through a decision rule that a latent variable dictates, as in (\ref{eq:latent}). Specifically, substitute (\ref{eq:budget}),(\ref{eq:wage}) into (\ref{eq:utility}) and note that
+\begin{eqnarray}
+d_{it} =
+\begin{cases}
+1 \  \text{if }  v_{it}^* \left( y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \right) \ \geq 0  \\
+0 \  \text{if }  v_{it}^* \left( y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \right)  < 0 \label{eq:latent2}
+\end{cases}
+\end{eqnarray}
+where $v_{it}^* \left( y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \right) \equiv U_{it}^1 - U_{it}^0$ and
+\begin{eqnarray}
+U_{it}^1 &=& U(y_{it} + w_{it}(z_{it}, \eta_{it}) - \pi n_{it}, 0) \\
+U_{it}^0 &=& U(y_{it}, 1; n_{it}, \kappa_{it}, \epsilon_{it}).
+\end{eqnarray}
+
+\begin{definition} (The State Space)
+\begin{enumerate}
+\item Household State Space: $\Omega_{it} = \{ y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \}$.
+\item Observed Household State Space: $\Omega_{it}^- = \{ y_{it}, z_{it}, n_{it}, \kappa_{it} \}$.
+\item The set of values of the unobserved variables that makes a household with observed state space $\Omega_{it}^-$ choose $d_{it} = 1$: $S \left(  \Omega_{it}^- \right) = \{ \epsilon_{it}, \eta_{it}:  v^* \left(\epsilon_{it}, \eta_{it} ; \Omega_{it}^- \right) \geq 0 \}$. 
+\end{enumerate}
+\end{definition}
+
+\indent This enables to write
+\begin{eqnarray}
+\Pr \left( d_{it} = 1 | \Omega_{it}^{-} \right) &=& \int \limits _{S \left(  \Omega_{it}^- \right)} d F _{\epsilon, \eta |  y, \kappa, z, n} \nonumber \\
+&=& G \left( y_{it}, z_{it}, n_{it}, \kappa_{it} \right).
+\end{eqnarray}
+
+\noindent Obviously, $\Pr \left( d_{it} = 0 | \Omega_{it}^- \right) = 1 - \Pr \left( d_{it} = 1 | \Omega_{it}^- \right)$. The main components of $G \left( y, \kappa, z, n \right)$ are $U(\cdot), w(\cdot), F _{\epsilon, \eta,  y, \kappa, z, n}$, which conform the \emph{structure} or the \emph{set of primitives} of the model. Consider the following definitions of estimation approaches and auxiliary assumptions.
+
+\begin{definition} (Estimation Approaches) \label{definition:ea}
+\begin{enumerate}
+\item Structural (S): it recovers some or all of the parameters of that define the structure of the model.
+\item Non-Structural (NS): it recovers $G(\cdot)$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition} (Auxiliary Assumptions for Identification) \label{definition:aa}
+\begin{enumerate}
+\item Parametric (P): assumes parametric forms about the structure of the model or about $G(\cdot)$.
+\item Non-Parametric (NP): it does not impose parametric forms on either the structure or $G(\cdot)$.
+\end{enumerate}
+\end{definition}
+
+\indent The combination of the initial approaches and the two auxiliary assumptions for identifications leads to a total of four possible estimation approaches: (i) S-P; (ii) S-NP; (iii) NS-P; (iv) NS-NP. The relevant question to ask is which of the estimation approaches enable to attain the research goals in Section \ref{section:extension}.
+
+\begin{exercise} (The Joint Distribution of Observed and Unobserved Variables)
+Give a sufficient condition on the joint distribution of observed and unobserved variables to attain each of the research goals in Section \ref{section:extension}. Hint: Think if you can ask the questions implied by the research goals without an assumption about the relation between the unobserved variables that affect preferences and the wage function and the observed variables. Then, make a simple assumption about the joint distribution of the observed and unobserved variables.
+\end{exercise}
+
+\indent This model enables to illustrate how different estimation approaches help to attain the different research goals in Section \ref{section:extension}. Consider the following examples:
+\begin{enumerate}
+\item Goal 1: from (\ref{eq:utility}) note that an increase in wage increases the utility the household has if the woman works and does not affect the utility the household has when the woman does not work. Then, a test of the theory is to analyze if the probability of woman's employment is increasing in wage. 
+\item Goal 2: take the derivative of $G(\cdot)$, the probability of woman's employment, with respect to any of the state variables.
+\item Goal 3: take the derivative of $G(\cdot)$, the probability of woman's employment, with respect to a variable that is outside the model (e.g., $\pi$, the per-child cost of child-care). 
+\end{enumerate}
+
+\begin{exercise} (Estimation Approaches and Research Goals) \label{exercise:approaches}
+What research goals can you attain with the estimation approaches NP-NS, P-NS, P-NS. Be as formal as possible. Hint: think of the different effects that you are able to identify.
+\end{exercise}
+
+\subsection{Estimation of a Parametric, Structural Model}
+In this exercise you will take a S-P approach to estimate the model in Section \ref{section:model}. Of course, there are many variations of parametric assumptions that you can impose. The documents guides you and you estimate. Various exercises lead to the final answer. 
+
+\begin{assumption} (Utility and Wage Functions and the Joint Distribution of Unobserved Variables) \label{assumption:utwajo}
+The utility function is:
+\begin{equation}
+U_{it} = c_{it} + \alpha_{it} (1 - d_{it})
+\end{equation}
+\noindent where $\alpha_{it} = \beta_{\kappa} \kappa_{it} + \beta_{n} n_{it} + \epsilon_{it}$ and $\beta_{\kappa},\beta_{n}$ are scalars. The wage function is:
+\begin{equation}
+w_{it} = z_{it} \gamma + \eta_{it}.
+\end{equation}
+\noindent The distribution of unobserved variables is
+\begin{equation}
+f \left( \epsilon_{it}, \eta_{it} \right) \sim \mathcal{N} \left( 0, \Lambda \right)
+\end{equation}
+where $\left( \begin{array}{cc} 
+\sigma_{\epsilon}^2 & \cdot \\
+\sigma_{\epsilon, \eta} & \sigma_{\eta}^2
+\end{array} \right)$.  
+\end{assumption}
+
+\begin{exercise} (Wage Normality)
+Is it odd to model the shock to wages as normal? Why is it useful? 
+\end{exercise}
+
+\begin{exercise} (The State Space)
+Define $\Omega_{it}$ and $\Omega_{it}^-$ for this problem. 
+\end{exercise}
+
+\begin{exercise} (Latent Variable Function)
+Use Assumption \ref{assumption:utwajo} to write down the latent variable function. First define $U_{it}^1$ and $U_{it}^0$. Your latent function should be a function of $\xi_{it} \equiv \eta_{it} - \epsilon_{it}$ and  $\xi_{it}^*\left( \Omega_{it}^- \right) \equiv z_{it} \gamma - \left( \pi \beta_{n} \right) - \kappa_{it} \beta_{\kappa}$. Use this notation for the rest of the problem.
+\end{exercise}
+
+\begin{exercise} (Individual and Sample Likelihood Function) \label{exercise:likelihood}
+Write down the individual likelihood that individual $i$ at time $t$ contributes to the sample likelihood function. Write down the sample likelihood function.
+\end{exercise}
+
+\begin{exercise} (Estimands and Identification) \label{exercise:estimands}
+What is the set of parameters that you want to estimate? Are all of these parameters identified? Hint: read \citet{heckman1979sample}.
+\end{exercise}
+
+\begin{exercise} (Simulation) \label{exercise:simulations}
+Simulate a strongly balanced data set with $N = 1000$ observations and $T=6$. Use the following parameters: $\beta_\kappa = 0.5, \beta_n = 0.2, \sigma_\epsilon = 1, \pi = 0.2, \gamma_1 = 0.8, \sigma_\eta = 0.2, \sigma_{\epsilon \eta} = 0.3$. Assume that $y_{it} \overset{iid}{\sim} \mathcal{U} (0,10)$. $\kappa_{it}$, $z_{it}$ and $n_{it}$ are time invariant. In particular, $\kappa_{i}, z_{i} \overset{iid}{\sim} \mathcal{U} (0,5)$, and $n_{i}$ follows a discrete uniform distribution and $n_{i} \in \left\{0,1,2,3\right\}$. Use the Distribitions package in Julia and set the seed to one.
+\end{exercise}
+
+\begin{exercise} (Estimation)
+Estimate the parameters of the model by ML. Compare your results with the parameters in Exercise \ref{exercise:simulations}. Hint: if the BFGS algorithm does not work use the Nelder-Mead algorithm.
+\end{exercise}
+
+\begin{exercise} (Was attaining the maximum accidental?) \label{exercise:accident}
+It could be the case that the initial condition was accidentally good enough so that maximization algorithm converges. To make sure this was not the case, simulate $H$ samples, estimate the model $H$ times, and describe the results. The quality of estimation should not vary a lot across samples. Hint 1: $H$ depends on your computation power. Hint 2: if the process is to slow for your standard, give $H$ a small value and wait for Exercise \ref{exercise:Hpar}.
+\end{exercise}
+
+\begin{exercise} (Bootstrap standard errors) \label{exercise:bootstrap}
+The likelihood function you found in Exercise \ref{exercise:likelihood} is not the most beautiful mathematical expression you have encountered. If you do not trust a method which inverts it's second derivative you can estimate bootstrap standard errors. Resample from the sample you created in Exercise \ref{exercise:simulations} to create $B$ samples size $M = N/2$. Obtain one estimate for each of these estimates and then take the standard deviation of your $B$ estimates. Call this bootstrap standard errors. Hint 1: $B$ depends on your computation power. Hint 2: if the process is to slow for your standard, give $B$ a small value and wait for Exercise \ref{exercise:Bpar}.
+\end{exercise}
+
+\begin{exercise} (Parallel version of Exercise \ref{exercise:accident}) \label{exercise:Hpar}
+If you are very suspicious of the maxima you are obtaining in Exercise \ref{exercise:accident} you may want to let $H$ be very big. There is a way to make this in a relative quick way: divide the $H$ estimation by the number of processors your computer (or the server of the institution you belong to) has. Write a code that does this. Hint: write your $H$ maximization processes as a function of the single argument $H$. Then, in an additional script, call the function.
+\end{exercise}
+
+\begin{exercise} (Parallel bootstrap standard errors) \label{exercise:Bpar}
+Same story as in \ref{exercise:Bpar}.
+\end{exercise}
+
+\begin{exercise} \label{exercise:psapproach}
+What research goals are you able to attain with this approach?
+\end{exercise}
+
+\begin{exercise}
+What are you able to learn from each estimation approach? Is any estimation approach better than the other? Why?
+\end{exercise}

@@ -1,0 +1,49 @@
+
+%Input Style, Packages, Math Environment
+\input{HelperFiles/probit_solutionHelp}
+
+\begin{document}
+\title{\textbf{Structural Econometrics with Implementations in Julia: Probit}}
+\author{Jorge Luis Garc\'{i}a\thanks{Department of Economics, the University of Chicago (jorgelgarcia@uchicago.edu).} $^{,}$\thanks{A rough version of this document with an implementation in Python was delivered as an assignment when I was a TA for Econ 350 at the University of Chicago. I developed it together with Yike Wang, who I thank for many useful comments.}}
+\date{First Draft: June 1, 2014 \\ This Draft: \today}
+\maketitle
+
+\setcounter{section}{1}
+%\section{Probit}
+
+\begin{exercise} (Identification of the Probit Model) \label{exercise:idenprobit}
+Model a bivariate, static, discrete choice through a Probit model. The convention is that in this model the unobserved variable is normally distributed. (i) Show that you can normalize the threshold that defines the agent's decision without loss of generality;  (ii) why is the normalization without loss of generality?; (iii) what other normalization can you make without loss of generality in your Probit model?; (iv) what does this normalization implies with respect to the distribution of the unobserved variable? (v) are you able to identify all the parameters of the model?; (vi) how does identification and the normalizations relate to each other? Hint: think of the scalar and spatial identification issues that the structure of a Probit model generates.\\
+\noindent Answer:\\
+\noindent This model is static so the answer neglects the time subscript. Individual $i = 1, \ldots, N$ has two choices, $\{0,1\}$, that imply two potential outcomes, $y_{i}^{0}, y_{i}^{1}$. These outcomes depend linearly on observed and unobserved variables (from the perspective of the econometrician):
+\begin{eqnarray}
+y_{i}^{0} = \mathbf{X_{i}^0 \beta_{0}} + \epsilon_{0} \\ \nonumber
+y_{i}^{1} = \mathbf{X_{i}^1 \beta_{1}} + \epsilon_{1}
+\end{eqnarray} 
+\noindent where $X_{i}^{j}$ is a $1 \times k_{j}$ vector of independent variables for $j=0,1 \ \forall i = 1, \ldots, N$, $\beta_{j}$ is a $ k_{j} \times 1$ vector of coefficients and $\epsilon_{j}, \ j=0,1$ is a random perturbation, which the econometrician ignores. In the Probit model, the assumptions is that these perturbations have a joint normal distribution with mean zero. Individual $i$ chooses $1$ iff $y_{i}^{1} - y_{i}^{0} \geq a$, for $a \in \mathbb{R}$. The econometrician only observes whether the individual chooses $0$ or $1$. It is possible, then, to model the choice rule as follows:
+\begin{eqnarray}
+d_{i} =
+\begin{cases}
+1 & \text{if } y_{i}^{*} \geq a  \\
+0 & \text{if } y_{i}^{*} < a
+\end{cases}
+\end{eqnarray}
+\noindent where  $y_{i}^{*} \equiv  (\mathbf{X_{i}^1 \beta_{1}} - \mathbf{X_{i}^0 \beta_{0}}) + (\epsilon_{1} - \epsilon_{0}) \equiv \mathbf{X_{i} \beta} + \epsilon_{i}$. $\mathbf{X_{i}}, \mathbf{\beta}$ are of dimensions $1 \times k_{1}+k_{0}$ and $k_{1}+k_{0} \times 1$, respectively. By construction, $\epsilon_{i} \sim \mathcal{N} (0, \sigma^2)$, where $\sigma^2$ is a function of the variances and the covariance of $\epsilon_{0}, \epsilon_{1}$.\\
+\indent A simple way to asses identification is the following. The principal ingredients of the model's identification are the choice probabilities. This actually have the same components so we focus on the following
+\begin{eqnarray}
+\Pr\left(d_{i} = 1 | X_{i}\right) &=& \Pr\left(y_{i}^{*} \geq a |X_{i}\right) \\ \nonumber
+&=& \Pr\left(\mathbf{X_{i} \beta} + \epsilon_{i} \geq a |X_{i}\right) \\ \nonumber
+&=& \Pr\left(\epsilon_{i} \geq a - \mathbf{X_{i} \beta} \right) \\ \nonumber
+&=& \Pr \left( \frac{\epsilon_{i}}{\sigma} \geq \frac{a - \mathbf{X_{i} \beta}}{\sigma} \right).
+\end{eqnarray}
+\end{exercise}
+\noindent As is standard, the first element in $X_{i}$ is a constant term across individuals. Thus, the first element in $\mathbf{\beta}$ cannot be identified from $a$, i.e. spatial identification of $a$ from the first element of $\mathbf{\beta}$ is impossible. The identification impossibility implies that the assumption $a = 0$ does not imply loss of generality. Likewise, scalar identification of each element of  $\mathbf{\beta}$ from $\sigma$ is impossible. The usual assumption here is $\sigma^2 = 1$, which implies that $\epsilon_{i}$ has a normal standard distribution. $\sigma^2 = 1$ is as arbitrary as any other assumption so standard normality of $\epsilon_{i}$ is as arbitrary an any other distribution. The identification of the parameters of the Probit, thus, is up to scale. A scale set to $1$ typically. The identification of the rest of the parameters relies on a set of $k_{1} + k_{0}$ first order conditions. In particular, provided that the matrix $X = [ X_{1}, \ldots, X_{N}]$, the first order conditions are a set of $k_{1} + k_{0}$ that solve for the $k_{1} + k_{0}$ parameters in $\mathbf{\beta}$. 
+
+\setcounter{theorem}{2}
+\begin{exercise} (Estimation of the Probit Model)
+From Exercise \ref{exercise:idenprobit} you have clear the setup of the Probit model. Make sure you know what the correct parametric assumptions are and what can you identify in the model. Simulate all the data necessary to estimate a Probit model. The instructions are loose in purpose because we want to evaluate your ability to create the data and estimate the model from scratch. Hint: simulate a single independent variable. This is sufficient for the purposes of this exercise.\\
+\noindent Answer:
+\noindent The likelihood of individual $i$ is: $L_{i} \left( \mathbf{\beta}|X_{i} \right) = \Phi\left( \mathbf{X_{i}} \beta \right)^{d_{i}} \cdot \Phi\left( - \mathbf{X_{i}} \beta \right) ^{1 - d_{i}}  $. The sample log likelihood is: $l \left( \mathbf{\beta}|X \right) = \sum \limits _{i=1} ^{N} d_{i} \cdot  \log \Phi\left( \mathbf{X_{i}} \beta \right) + (1 - d_{i}) \log \Phi\left( - \mathbf{X_{i}} \beta \right)$. For the rest of the exercise see the code ``probit.jl''. 
+\end{exercise}
+
+\end{document}
+

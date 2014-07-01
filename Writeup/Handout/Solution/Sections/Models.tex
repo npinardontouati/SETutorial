@@ -1,0 +1,284 @@
+\section{Model Classifications, Estimation Strategies, and Research Goals} \label{section:models}
+In this section we consider the static model in \citet{keane2011structural} to illustrate how different modeling approaches and estimation strategies enable to attain the research goals in Section \ref{section:extension}.
+\subsection{Woman's Labor Force Participation} \label{section:model}
+Consider the following model of the labor force participation of a married woman. The model is unitary and the couple's $i$ utility at time $t$ is
+\begin{equation}
+U_{it} = U \left( c_{it}, 1-d_{it}; n_{it}(1-d_{it}), \kappa_{it}(1-d_{it}), \epsilon_{it} (1-d_{it}) \right) \label{eq:utility}
+\end{equation}
+\noindent where $c_{it}$ is consumption, $d_{it}$ is an indicator of the woman's labor supply ($1$ if she works and $0$ if she does not), $n_{it}$ is the number of young children that the couple has, $\kappa_{it}$ and $\epsilon_{it}$ are observed and unobserved factors that shift the couple's valuation of home production. Actually, $t$ corresponds to the couple's marriage duration. The utility function satisfies standard concavity and Inada conditions.\\
+\indent The wife receives a wage offer $w_{it}$ in each period $t$ and the husband, who works every period, receives an income $y_{it}$. If the wife works, the family needs to pay child care, $\pi$ for each child in each period. Hence, the budget constraint is
+\begin{equation}
+c_{it} = y_{it} + w_{it} d_{it} - \pi n_{it} d_{it} \label{eq:budget}.
+\end{equation}
+
+\indent In this simple model, a wage function determines the wage offer that women receive:
+\begin{equation}
+w_{it} = w(z_{it}, \eta_{it}) \label{eq:wage}
+\end{equation} 
+
+\noindent where $z_{it}$ are observed and $\eta_{it}$ unobserved factors. By assumption, $\epsilon_{it}, \eta_{it}$ are not serially correlated between each other.
+
+\begin{exercise}
+Is this model static or dynamic?\\
+\noindent Answer:\\
+\noindent This model is static. There is no link between $t$ and $t-1$ in any of the variables (withing or across). 
+\end{exercise}
+
+\begin{exercise}
+What are the variables that you expect to find in $z_{it}$?\\
+\noindent Answer:\\
+\noindent Education and experience are two typical examples of variables in $z_{it}$.
+\end{exercise}
+
+\begin{exercise}
+Why is no serial correlation between $\epsilon_{it}, \eta_{it}$ a relevant assumption? Is it a technical or an economic assumption? Is it realistic? Hint: go ahead and answer the reminder of the exercise and then come back to this question.\\
+\noindent Answer:\\
+\noindent This assumption is technical. Note that no serial correlation between $\epsilon_{it}, \eta_{it}$ is one of the reasons why the model is static. Whether this is realistic or not depends on the context but of course it is natural to think that shocks people receive are correlated over time. 
+\end{exercise}
+
+\indent This structure, actually, is enough to describe the problem through a decision rule that a latent variable dictates, as in \eqref{eq:latent}. Specifically, substitute \eqref{eq:budget},\eqref{eq:wage} into \eqref{eq:utility} and note that
+\begin{eqnarray}
+d_{it} =
+\begin{cases}
+1 \  \text{if }  v_{it}^* \left( y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \right) \ \geq 0  \\
+0 \  \text{if }  v_{it}^* \left( y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \right)  < 0 \label{eq:latent2}
+\end{cases}
+\end{eqnarray}
+where $v_{it}^* \left( y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \right) \equiv U_{it}^1 - U_{it}^0$ and
+\begin{eqnarray}
+U_{it}^1 &=& U(y_{it} + w_{it}(z_{it}, \eta_{it}) - \pi n_{it}, 0) \\
+U_{it}^0 &=& U(y_{it}, 1; n_{it}, \kappa_{it}, \epsilon_{it}).
+\end{eqnarray}
+
+\begin{definition} (The State Space)
+\begin{enumerate}
+\item Household State Space: $\Omega_{it} = \{ y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \}$.
+\item Observed Household State Space: $\Omega_{it}^- = \{ y_{it}, z_{it}, n_{it}, \kappa_{it} \}$.
+\item The set of values of the unobserved variables that makes a household with observed state space $\Omega_{it}^-$ choose $d_{it} = 1$: $S \left(  \Omega_{it}^- \right) = \{ \epsilon_{it}, \eta_{it}:  v^* \left(\epsilon_{it}, \eta_{it} ; \Omega_{it}^- \right) \geq 0 \}$. 
+\end{enumerate}
+\end{definition}
+
+\indent This enables to write
+\begin{eqnarray}
+\Pr \left( d_{it} = 1 | \Omega_{it}^{-} \right) &=& \int \limits _{S \left(  \Omega_{it}^- \right)} d F _{\epsilon, \eta |  y, \kappa, z, n} \nonumber \\
+&=& G \left( y_{it}, z_{it}, n_{it}, \kappa_{it} \right).
+\end{eqnarray}
+
+\noindent Obviously, $\Pr \left( d_{it} = 0 | \Omega_{it}^- \right) = 1 - \Pr \left( d_{it} = 1 | \Omega_{it}^- \right)$. The main components of $G \left( y, \kappa, z, n \right)$ are $U(\cdot), w(\cdot), F _{\epsilon, \eta,  y, \kappa, z, n}$, which conform the \emph{structure} or the \emph{set of primitives} of the model. Consider the following definitions of estimation approaches and auxiliary assumptions.
+
+\begin{definition} (Estimation Approaches) \label{definition:ea}
+\begin{enumerate}
+\item Structural (S): it recovers some or all of the parameters of that define the structure of the model.
+\item Non-Structural (NS): it recovers $G(\cdot)$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition} (Auxiliary Assumptions for Identification) \label{definition:aa}
+\begin{enumerate}
+\item Parametric (P): assumes parametric forms about the structure of the model or about $G(\cdot)$.
+\item Non-Parametric (NP): it does not impose parametric forms on either the structure or $G(\cdot)$.
+\end{enumerate}
+\end{definition}
+
+\indent The combination of the initial approaches and the two auxiliary assumptions for identifications leads to a total of four possible estimation approaches: (i) S-P; (ii) S-NP; (iii) NS-P; (iv) NS-NP. The relevant question to ask is which of the estimation approaches enable to attain the research goals in Section \ref{section:extension}.
+
+\begin{exercise} (The Joint Distribution of Observed and Unobserved Variables)
+Give a sufficient condition on the joint distribution of observed and unobserved variables to attain each of the research goals in Section \ref{section:extension}. Hint: Think if you can ask the questions implied by the research goals without an assumption about the relation between the unobserved variables that affect preferences and the wage function and the observed variables. Then, make a simple assumption about the joint distribution of the observed and unobserved variables.\\
+\noindent Answer:\\
+\noindent It is \emph{necessary} to make an assumption of independence between the unobserved variables, $\epsilon_{it}, \eta_{it}$, and the observed variables, $y_{it}, z_{it}, n_{it}, \kappa_{it}$. Otherwise, variation in $y_{it}, z_{it}, n_{it}, \kappa_{it}$ either across individuals in $t$ or within individuals in any period $t, \ldots, T$, causes $d_{it}$ through two channels: (i) direct effect on preferences and  wages; (ii) indirect effects on preferences and wages through the effect that unobserved variables have on this. A natural step is to shut down the second channel and a \emph{sufficient} condition is full independence between $\epsilon_{it}, \eta_{it}$ and  $y_{it}, z_{it}, n_{it}, \kappa_{it}$: $F_{\epsilon, \eta}|y, z, n, \kappa = F_{\epsilon,\eta}$.
+\end{exercise}
+
+\indent This model enables to illustrate how different estimation approaches help to attain the different research goals in Section \ref{section:extension}. Consider the following examples:
+\begin{enumerate}
+\item Goal 1: from (\eqref{eq:utility}) note that an increase in wage increases the utility the household has if the woman works and does not affect the utility the household has when the woman does not work. Then, a test of the theory is to analyze if the probability of woman's employment is increasing in wage. 
+\item Goal 2: take the derivative of $G(\cdot)$, the probability of woman's employment, with respect to any of the state variables.
+\item Goal 3: take the derivative of $G(\cdot)$, the probability of woman's employment, with respect to a variable that is outside the model (e.g., $\pi$, the per-child cost of child-care). 
+\end{enumerate}
+
+\begin{exercise} (Estimation Approaches and Research Goals) \label{exercise:approaches}
+What research goals can you attain with the estimation approaches NP-NS, P-NS, P-NS. Be as formal as possible. Hint: think of the different effects that you are able to identify.\\
+\noindent Answer:\\
+\begin{itemize}
+\item NP-NS: the base of this approach is a non-parametric estimate of $G(\cdot)$.
+\begin{itemize}
+\item Goal 1: the typical example of an exercise towards Goal 1 is to inspect how a change in the wage affects the woman's labor force participation decision. An important feature of this model is that wages are observed iff the woman participates of the labor market. This shapes the possibility to answer research questions related to Goal 1. This exercise requires variation in $w_{it}$ that is independent to variation in other variables that determine participation. Put differently, the exercise requires a variable in $z_{it}$ which is not in $\kappa_{it}$ (an exclusion restriction). Also, it is necessary to sign the effect of the exclusion restriction on the wage. This follows because $w_{it}$ enters indirectly into the latent function, through $z_{it}$. Again, the reason of this is that the wages are not observed for everyone.   
+\item Goal 2: it is possible to obtain a non-parametric estimate of $G(\cdot)$ (think of a empirical c.d.f.). This enables to test the change of any of the variables on participation \emph{within the range of the data}. Since the estimate is non-parametric, it is impossible to make out-of-sample tests.   
+\item Goal 3: a natural research question towards this goal is to study what happens when $\pi$ changes. It is impossible to identify $\pi$ from $G(\cdot)$, however. Note that $G_{n} = \pi G_{n \pi}$. Thus, it is not possible to identify $\pi$ from $G_{n \pi}$ and carry on with the exercise.
+\end{itemize} 
+\item P-NS: the base of this approach is a parametric assumption about $G(\cdot)$.
+\begin{itemize}
+\item Goal 1: by the same reasoning as in the NP-NS approach this requires an exclusion restriction. This is simply because a parametric assumption does not imply that the effects through $z_{it}$ and $\kappa_{it}$ without an exclusion restriction. 
+\item Goal 2: the parametric assumption on $G(\cdot)$ enables to test the change of any of the variables on participation \emph{within and outside the range of the data}.
+\item Goal 3: again, it is impossible to identify $\pi$ from $G(\cdot)$.
+\end{itemize}
+\item NP-S: this approach is not feasible because it implies to identify $U(\cdot), w(\cdot), F$ without any parametric or auxiliary assumptions and the wages for the women who do not work are not observed for everyone. When the wages are observed for everyone the structure is reduced and some normalizations enable to identify it \citep[see][]{matzkin1993nonparametric}.
+\item P-S: see Exercise \ref{exercise:psapproach}.
+\end{itemize}
+\end{exercise}
+
+\subsection{Estimation of a Parametric, Structural Model}
+In this exercise you will take a S-P approach to estimate the model in Section \ref{section:model}. Of course, there are many variations of parametric assumptions that you can impose. We guide you and you estimate. Various exercises lead to the final answer. 
+
+\begin{assumption} (Utility and Wage Functions and the Joint Distribution of Unobserved Variables) \label{assumption:utwajo}
+The utility function is:
+\begin{equation}
+U_{it} = c_{it} + \alpha_{it} (1 - d_{it})
+\end{equation}
+\noindent where $\alpha_{it} = \beta_{\kappa} \kappa_{it} + \beta_{n} n_{it} + \epsilon_{it}$ and $\beta_{\kappa},\beta_{n}$ are scalars. The wage function is:
+\begin{equation}
+w_{it} = z_{it} \gamma + \eta_{it}.
+\end{equation}
+\noindent The distribution of unobserved variables is
+\begin{equation}
+f \left( \epsilon_{it}, \eta_{it} \right) \sim \mathcal{N} \left( 0, \Lambda \right)
+\end{equation}
+where $\left( \begin{array}{cc} 
+\sigma_{\epsilon}^2 & \cdot \\
+\sigma_{\epsilon, \eta} & \sigma_{\eta}^2
+\end{array} \right)$.  
+\end{assumption}
+
+\begin{exercise} (Wage Normality)
+Is it odd to model the shock to wages as normal? Why is it useful?\\
+\noindent Answer:\\
+\noindent It is odd because wages are positive values. If $z_{i} \gamma$ is large enough this causes no negative wages. Modeling the wage shocks through a distribution with positive support is more natural but normality makes the model algebraically tractable. 
+\end{exercise}
+
+\begin{exercise} (The State Space)
+Define $\Omega_{it}$ and $\Omega_{it}^-$ for this problem.\\
+\noindent Answer:\\
+\noindent (Same as before) $\Omega_{it} = \{ y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it} \}$. $\Omega_{it}^{-} = \{ y_{it}, z_{it}, n_{it}, \kappa_{it} \}$. 
+\end{exercise}
+
+\begin{exercise} (Latent Variable Function)
+Use Assumption \ref{assumption:utwajo} to write down the latent variable function. First define $U_{it}^1$ and $U_{it}^0$. Your latent function should be a function of $\xi_{it} \equiv \eta_{it} - \epsilon_{it}$ and  $\xi_{it}^*\left( \Omega_{it}^- \right) \equiv z_{it} \gamma - \left( \pi \beta_{n} \right) - \kappa_{it} \beta_{\kappa}$. Use this notation for the rest of the problem.\\
+\noindent Answer:\\
+\begin{eqnarray}
+U_{it}^{1} &=& c_{it} \nonumber \\
+           &=& y_{it} + w_{it} - \pi n_{it} \nonumber \\
+           &=& y_{it} + z_{it} \gamma + \eta_{it} - \pi n_{it} \\
+U_{it}^{0} &=& y_{it} + \beta_{\kappa} \kappa_{it} + \beta_{n} n_{it} + \epsilon_{it} \\
+U_{it}^{1} - U_{it}^{0} &\equiv& v_{it}^{*} \left( y_{it}, z_{it}, n_{it}, \kappa_{it}, \epsilon_{it}, \eta_{it}  \right) \nonumber \\ 
+           &=& z_{it} \gamma - \left( \pi + \beta_{n} \right) n_{it} - \beta_{\kappa} \kappa_{it} + \eta_{it} - \epsilon_{it} \nonumber \\
+           & \equiv & \xi_{it}^{*} \left( \Omega_{it}^{-} \right) + \xi_{it}.
+\end{eqnarray}
+\end{exercise}
+
+\begin{exercise} (Individual and Sample Likelihood Function)  \label{exercise:likelihood}
+Write down the individual likelihood that individual $i$ at time $t$ contributes to the sample likelihood function. Write down the sample likelihood function.\\
+\noindent Answer (assume that the data is strongly balanced, i.e. observe all the individuals in the same periods):\\
+\noindent The likelihood of individual $i$ at time $t$ is
+\begin{eqnarray}
+L_{it} \left( \theta | \Omega_{it}^{-} \right) &=& \Pr \left(  d_{it} = 1, w_{it} | \Omega_{it}^{-} \right)^{d_{it}} \times \Pr \left(  d_{it} = 0 | \Omega_{it}^{-} \right)^{1-d_{it}} \nonumber \\
+&=& \Pr \left( \xi_{it} \geq - \xi_{it}^{*} \left(\Omega_{it}^{-} \right), \eta_{it} = w_{it} - z_{it} \gamma  \right) ^{d_{it}} \nonumber \\  
+&\times& \Pr \left( \xi_{it} < - \xi_{it}^{*} \left(\Omega_{it}^{-} \right) \right) ^{1 - d_{it}}
+\end{eqnarray}
+
+\noindent \ldots and the sample likelihood is
+\begin{equation}
+L \left( \theta | \Omega_{it}^{-} \right) = \prod \limits _{i \in \mathcal{I}} \prod \limits _{t \in \mathcal{T}} L_{it} \left( \theta | \Omega_{it} ^{-} \right).
+\end{equation}
+\noindent where $\theta$ is the vector of estimands (see Exercise \ref{exercise:estimands}). Importantly, note that $\Pr \left(  d_{it} = 1, \eta_{it} | \cdot \right)^{d_{it}}$ is not a probability but a mixture of the $c.d.f.$ (of the decision, $d$) and the $p.d.f.$ (of the wage, $w_{it}$).\\
+\noindent Further clarification is necessary. The likelihood for the household in which woman do not work is
+\begin{eqnarray}
+L_{it}^{0} &=& \Pr \left( d_{it} = 0 | z_{it}, n_{it}, \kappa_{it} \right) \nonumber \\
+       &=& \Pr \left( \xi_{it} \leq - \xi_{it}^{*} | \cdot \right) \nonumber \\
+       &=& \Pr \left( \frac{\xi_{it}}{\sigma_{\xi}} \leq - \frac{\xi_{it}^{*}}{\sigma_{\xi}} | \cdot \right) \nonumber \\
+       &=& \Phi \left( - \frac{\xi_{it}^{*}}{\sigma_{\xi}}  \right). 
+\end{eqnarray}
+
+\noindent As usual, $\Phi$ and $\phi$ are the c.d.f. and p.d.f. of a univariate normal standard distribution, respectively. If the woman works: 
+\begin{eqnarray}
+L_{it}^1 &=& \Pr \left( d_{it} = 1 , w_{it} | z_{it}, n_{it}, \kappa_{it} \right) \nonumber \\
+       &=& \Pr \left( \xi_{it} \geq - \xi_{it}^{*}, \eta_{it} = w_{it} - z_{it} \gamma | \cdot \right) \nonumber \nonumber \\
+       &=& \int \limits _{-\xi_{it}^{*}} ^{\infty} f \left( \xi_{it}, \eta_{it} \right) d \xi_{it} \nonumber \\
+       &=& \int \limits _{-\xi_{it}^{*}} ^{\infty} f \left( \xi_{it} | \eta_{it} \right) f \left( \eta_{it} \right) d \xi_{it} \nonumber \\
+       &=& f \left( \eta_{it} \right) \int \limits _{-\xi_{it}^{*}} ^{\infty} f \left( \xi_{it} | \eta_{it} \right) d \xi_{it} \nonumber \\
+       &=& \frac{1}{\sigma_{\eta}} \phi \left( \frac{\eta_{it}}{\sigma_{\eta}} \right) \int \limits _{-\xi_{it}^{*}} ^{\infty} f \left( \xi_{it} | \eta_{it} \right) d \xi_{it} \label{eq:int}.
+\end{eqnarray}
+\noindent where the last line follows from Subsection \ref{section:uninormal} in Appendix \ref{section:appendix}. From \ref{section:conditional} in Appendix \ref{section:appendix} note that
+\begin{eqnarray}
+\xi_{it} | \eta_{it} \overset{iid}{\sim} \mathcal{N} \left( \mu_{\xi.\eta}, \sigma_{\xi.\eta}^2 \right)
+\end{eqnarray}
+\noindent where $\mu_{\xi.\eta} \equiv \frac{\sigma_{\xi, \eta} \eta_{it}}{\sigma_{\eta}^2}$ and $\sigma_{\xi.\eta}^2 = \sigma_{\xi}^2 - \frac{\sigma_{\xi,\eta}^2}{\sigma_{\eta}^2}$. This suffices to calculate the value of the integral in (\eqref{eq:int}) (it is simply equal to $\Phi \left(  \frac{\xi_{it}^* + \mu_{\xi.\eta}}{\sigma_{\xi.\eta}}\right)$). For completeness, consider the following
+\begin{eqnarray}
+\int \limits _{-\xi_{it}^{*}} ^{\infty} f \left( \xi_{it} | \eta_{it} \right) d \xi_{it} &=& \frac{1}{\sigma_{\xi.\eta}} \int \limits _{-  \left( \frac{\xi_{it}^{*} + \mu_{\xi.\eta}}{\sigma_{\xi.\eta}}  \right) } ^{\infty} \phi \left( \frac{\xi_{it} - \mu_{\xi.\eta}}{\sigma_{\xi.\eta}}  \right) d\xi_{it}. \nonumber \\
+\end{eqnarray}
+
+\noindent To simplify this further, let $u_{it} \equiv \frac{\xi_{it} - \mu_{\xi.\eta}}{\sigma_{\xi.\eta}}$ and note that $\frac{du_{it}}{d \xi_{it}} = \frac{1}{\sigma_{\xi.\eta}}$. Thus,
+\begin{eqnarray}
+\frac{1}{\sigma_{\xi.\eta}} \int \limits _{-  \left( \frac{\xi_{it}^{*} + \mu_{\xi.\eta}}{\sigma_{\xi.\eta}}  \right) } ^{\infty} \phi \left( \frac{\xi_{it} - \mu_{\xi.\eta}}{\sigma_{\xi.\eta}}  \right) d\xi_{it} &=& \int \limits _{-  \left( \frac{\xi_{it}^{*} + \mu_{\xi.\eta}}{\sigma_{\xi.\eta}}  \right) } ^{\infty} \phi (u_{it}) du_{it} \nonumber \\
+&=& 1 - \Phi \left( -\frac{\xi_{it}^{*} + \mu_{\xi.\eta}}{\sigma_{\xi.\eta}} \right) \nonumber \\
+&=& \Phi \left( \frac{\xi_{it}^{*} + \mu_{\xi.\eta}}{\sigma_{\xi.\eta}} \right).
+\end{eqnarray}
+
+\noindent Therefore:
+\begin{equation}
+L_{it}^1 = \frac{1}{\sigma_{\eta}} \phi \left( \frac{\eta_{it}}{\sigma_{\eta}} \right) \times \Phi \left( \frac{\xi_{it}^{*} + \mu_{\xi.\eta}}{\sigma_{\xi.\eta}} \right).
+\end{equation}
+
+\noindent so that:
+\begin{equation}
+L_{it} \left( \theta | \Omega_{it}^{-} \right) = \left[\frac{1}{\sigma_{\eta}} \phi \left( \frac{\eta_{it}}{\sigma_{\eta}} \right) \times \Phi \left( \frac{\xi_{it}^{*} + \mu_{\xi.\eta}}{\sigma_{\xi.\eta}} \right) \right]^{d_{it}} \left[ \Phi \left( - \frac{\xi_{it}^{*}}{\sigma_{\xi}}  \right) \right]^{1-d_{it}}.
+\end{equation}
+
+\end{exercise}
+
+\begin{exercise} (Estimands and Identification) \label{exercise:estimands}
+What is the set of parameters that you want to estimate? Are all of these parameters identified? Hint: read \citet{heckman1979sample}.\\ 
+\noindent Answer:\\
+\noindent The estimands are $\beta_{k}, \beta_{n}, \gamma, \pi, \sigma_{\epsilon}^2, \sigma_{\eta}^2, \sigma_{\epsilon, \eta} $. It is impossible to identify $\beta_{n}$ from $\pi$. It is only possible to identify $\beta_{n} + \pi$. For the rest of the parameters \citet{heckman1979sample} shows identification. Joint normality enables to identify $\gamma, \sigma_{\eta}^2, \frac{\sigma_{\eta}^2 - \sigma_{\epsilon, \eta}}{\sigma_{\xi}}$. The data on work choices identifies $\frac{\gamma}{\sigma_{\xi}}$ and $\frac{\beta}{\sigma_{\xi}}$. The identification of $\sigma_{\xi}$ requires a variable in $z_{it}$ which is not in $\kappa_{it}$. This identification provides the identification of $\sigma_{\epsilon, \eta}^2$. 
+\end{exercise}
+
+\begin{exercise} (Simulation) \label{exercise:simulations}
+Simulate a strongly balanced data set with $N = 1000$ observations and $T=6$. Use the following parameters: $\beta_\kappa = 0.5, \beta_n = 0.2, \sigma_\epsilon = 1, \pi = 0.2, \gamma_1 = 0.8, \sigma_\eta = 0.2, \sigma_{\epsilon \eta} = 0.3$. Assume that $y_{it} \overset{iid}{\sim} \mathcal{U} (0,10)$. $\kappa_{it}$, $z_{it}$ and $n_{it}$ are time invariant. In particular, $\kappa_{i}, z_{i} \overset{iid}{\sim} \mathcal{U} (0,5)$, and $n_{i}$ follows a discrete uniform distribution and $n_{i} \in \left\{0,1,2,3\right\}$. Use the Numpy random package in Python and set the seed to one. \\
+\noindent Answer:\\
+\noindent See file ``womanssimulation.jl''.
+\end{exercise}
+
+\begin{exercise} (Estimation)
+Estimate the parameters of the model by ML. Compare your results with the parameters in Exercise \ref{exercise:simulations}. Hint: if the BFGS algorithm does not work use the Nelder-Mead algorithm.\\
+\noindent Answer:\\
+\noindent See file ``womansestimation.jl''.
+\end{exercise}
+
+\begin{exercise} (Was attaining the maximum accidental?) \label{exercise:accident}
+It could be the case that the initial condition was accidentally good enough so that maximization algorithm converges. To make sure this was not the case, simulate $H$ samples, estimate the model $H$ times, and describe the results. The quality of estimation should not vary a lot across samples. Hint 1: $H$ depends on your computation power. Hint 2: if the process is to slow for your standard, give $H$ a small value and wait for Exercise \ref{exercise:Hpar}.\\
+\noindent Answer:\\
+\noindent See files ``womansmsimulation.jl'' and ``womansmestimation.jl''.
+\end{exercise}
+
+\begin{exercise} (Bootstrap standard errors) \label{exercise:bootstrap}
+The likelihood function you found in Exercise \ref{exercise:likelihood} is not the most beautiful mathematical expression you have encountered. If you do not trust a method which inverts it's second derivative you can estimate bootstrap standard errors. Resample from the sample you created in Exercise \ref{exercise:simulations} to create $B$ samples size $M = N/2$. Obtain one estimate for each of these estimates and then take the standard deviation of your $B$ estimates. Call this bootstrap standard errors. Hint 1: $B$ depends on your computation power. Hint 2: if the process is to slow for your standard, give $B$ a small value and wait for Exercise \ref{exercise:Bpar}.\\
+\noindent Answer: \\
+\noindent See file ``womansbootstrap.jl''.
+\end{exercise}
+
+\begin{exercise} (Parallel version of Exercise \ref{exercise:accident}) \label{exercise:Hpar}
+If you are very suspicious of the maxima you are obtaining in Exercise \ref{exercise:accident} you may want to let $H$ be very big. There is a way to make this in a relative quick way: divide the $H$ estimation by the number of processors your computer (or the server of the institution you belong to) has. Write a code that does this. Hint: write your $H$ maximization processes as a function of the single argument $H$. Then, in an additional script, call the function.\\
+\noindent Answer: \\
+\noindent See files ``womansbootstrapf.jl'' and ``womansparallelbootstrap.jl''.
+\end{exercise}
+
+\begin{exercise} (Parallel bootstrap standard errors) \label{exercise:Bpar}
+Same story as in \ref{exercise:Bpar}.\\
+\noindent Answer: \\
+\noindent See files ``womansmestimationf.jl'' and ``womansparallelmestimation.jl''.
+\end{exercise}
+
+\begin{exercise} \label{exercise:psapproach}
+What research goals are you able to attain with this approach?\\
+\noindent Answer:\\
+\begin{itemize}
+\item Goal 1: As discussed above, you need an exclusion restriction. In the simulation exercise you actually have it because $\kappa_{it},z_{it}$ are generated independently.
+\item Goal 2: These approach enables to determine the effect on the the woman's labor force participation in any of the variables within and outside of sample. This follows because it recovers the structure of the model and it has specific functional forms. 
+\item Goal 3: Of course! This is one of the appealing features of the P-S approach. This is usually referred as counter-factual analysis. 
+\end{itemize}
+ 
+\end{exercise}
+
+\begin{exercise}
+What are you able to learn from each estimation approach? Is any estimation approach better than the other? Why?\\
+\noindent Answer:\\
+\noindent This follows from the answer to Exercise \ref{exercise:approaches}. There are no ``best approaches''. It all depends on the question you want to ask, the data availability, and the assumptions that are plausible in each scenario.
+\end{exercise}

@@ -1,0 +1,37 @@
+\section{Discrete Choice Dynamic Programming}
+Consider the dynamic version of the model in Section \ref{section:model}. The utility function, the budget constraint, and the distribution of the unobserved variables are the same. The dynamics of the model come through the wage process. In particular, $w_{it}$ increases with work experience, $h_{it}$. This equals the total number of periods that the woman in household $i$ accumulates in all the periods previous to $t$:
+\begin{equation}
+h_{it} = \sum\limits_{\tau=1}^{t-1} d_{i\tau},
+\end{equation} 
+\noindent where $h_{i1} = 0$ for simplicity. The wage function is
+\begin{equation}
+w_{it} = z_{i}\gamma_{1} + \gamma_{2}h_{it} + \eta_{it}.
+\end{equation} 
+
+\noindent For simplicity, the variables $\kappa_{it}$, $n_{it}$, $z_{it}$ are non-stochastic and time invariant.
+
+\begin{exercise} (Dynamic Programming Set-up)
+Write down the household's problem for each period $t$. Let $\delta$ be the discount factor, $\Omega_{it}$ the state space, and $\Omega_{it}^-$ the observed state space. Write down the elements in $\Omega_{it},\Omega_{it}^-$.
+\end{exercise}
+
+\begin{exercise} (Solution)
+Solve the dynamic problem of the household for for an arbitrary time horizon, $T$. Hint: use a backward recursion.
+\end{exercise}
+
+\subsection{Simulation and Estimation}
+
+\begin{exercise} (Likelihood)
+What is the individual likelihood of household $i$ at time $t$? What is the sample likelihood across all periods?
+\end{exercise}
+
+\begin{exercise} (Simulation) \label{exercise:simulation}
+Simulate a balanced data set with $N = 1000$ observations and $T=6$. Use the same parameters as in the static model in Section \ref{section:models}. For the parameters that are exclusive of the dynamic model use the following: $\gamma_2 = 0.9,\delta = 0.85$. Set the experience of every woman to zero in $t=1$. Save the data in a ``.csv'' file.
+\end{exercise}
+
+\begin{exercise} (Estimation)
+Estimate the parameters of the model by ML. Compare your results with the parameters in Exercise \ref{exercise:simulation}.
+\end{exercise}
+
+\begin{exercise}
+In Section \ref{section:models} you learn how to trust more your estimates, obtain standard errors, and to parallelize these two processes. You could do that here too. As you may have noticed, not only estimation a large number of times these process could be computationally intensive but also simulating many samples. To learn something different, parallelize the simulation of $H$ samples.
+\end{exercise}

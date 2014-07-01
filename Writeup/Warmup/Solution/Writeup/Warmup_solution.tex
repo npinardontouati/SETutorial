@@ -1,0 +1,148 @@
+
+%Input Style, Packages, Math Environment
+\input{HelperFiles/WarmupHelp}
+
+\begin{document}
+\title{\textbf{Structural Econometrics with Implementations in Julia: Warm-up}}
+\author{Jorge Luis Garc\'{i}a\thanks{Department of Economics, the University of Chicago (jorgelgarcia@uchicago.edu).} $^{,}$\thanks{A rough version of this document with an implementation in Python was delivered as an assignment when I was a TA for Econ 350 at the University of Chicago. I developed it together with Yike Wang, who I thank for many useful comments.}}
+\date{First Draft: June 1, 2014 \\ This Draft: \today}
+\maketitle
+
+\begin{abstract}
+\noindent The objective of this exercise is for you to become familiar with the basic requirements to proceed with the rest of the Julia implementation. This lets you make sure that your software is installed and try optimization exercises . Also, it teaches you how to do numerical integration, which is useful in the rest of the empirical project. Be sure to get this exercise correct so that you can be confident to proceed with the rest of the project. 
+\end{abstract}
+
+\section{How to Calculate a Numerical Integral}
+
+\subsection{Interpolation}
+The information that a real-valued continuous function contains is actually infinite (in the not-countable sense). The computer, however, works in $\aleph_{0}$. This is not trivial, the computer can go ahead and count forever. How does a computer plots functions?
+\subsection{Interpolation}
+The information that a real-valued continuous function contains is actually infinite (in the not-countable sense). The computer, however, works in $\aleph_{0}$. This is not trivial, the computer can go ahead and count forever. How does a computer plots functions?
+
+\begin{exercise} (Plot a basic continuous function through a grid) \label{function:grid}
+Create a grid of $1,000$ points to plot one cycle in the unitary circle of the sine function. Hint: use Google.\\
+\noindent Answer: see code ``integration.jl''.
+\end{exercise} 
+
+\indent Roughly, with $1,000$ points, the computer: (i) evaluates the sine function, (ii) puts together coordinates, (iii) scatters them, (iv) joins them through lines. This method has a name: \emph{linear interpolation}. This is how linear interpolation happens. A given point $x$ lies in the interval $[x_{k},x_{k+1}]$, for an arbitrary $k$. In that interval, the computer defines a function that passes through the points $(x_{k},s_{k})$ and $(x_{k+1},s_{k+1})$:
+\begin{equation}
+S_{k}(x) = s_{k} + \frac{s_{k+1} - s_{k}}{x_{k+1} = x_{k}} (x - x_{k}). \label{eq:interpol}
+\end{equation}
+
+\noindent $S_{k}(x)$ is identical to $sin(x)$ at $x_{k}$ and $x_{k+1}$; between these points, $S_{k}(x)$ is linear.\\
+
+\subsection{Trapezoidal Integration}
+\indent Some functions have \emph{primitive} form integrals and some do not. How to integrate the sine function on the interval $(0,\pi)$ without a primitive form? For example,
+\begin{equation}
+\int \limits _{0} ^{\pi} \sin(x) dx. \label{eq:trap}
+\end{equation} 
+
+\indent From basic calculus it is possible to partition this integral in an arbitrary sum of integrals:
+\begin{equation}
+\int \limits _{0} ^{\pi} \sin(x)dx = \sum \limits _{k=0} ^{n-1} \int \limits _{x_{k}} ^{x_{k+1}} \sin(x)dx 
+\end{equation}
+\noindent where $n$ is the number of partitions and $x_{n} \equiv \pi$. This is useful because it is more precise to approximate it ``by pieces''. Precisely, the task is to compute the following:
+\begin{equation}
+\int \limits _{x_{k}} ^{x_{k+1}} \sin(x)dx 
+\end{equation}
+\noindent \ldots but $sin(x) \approx S_{k}(x)$. Then,
+\begin{equation}
+\int \limits _{x_{k}} ^{x_{k+1}} \sin(x)dx = \int \limits _{x_{k}} ^{x_{k+1}} S_{k}(x)dx. 
+\end{equation}
+
+\indent Now, note that: (i) a definite integral is the surface under the curve in certain interval; (ii) the interpolation function is linear. Thus, the approximation of the integral in the interval of interest implies the calculation of the area of a trapezoid. In particular:
+\begin{equation}
+\int \limits _{x_{k}} ^{x_{k+1}} \sin(x)dx \approx \frac{1}{2} (s_{k+1} + s_{k})(x_{k+1} - x_{k}).
+\end{equation}
+
+\indent It is almost always the case that the spacing between the points in the grid in which functions are worked out is uniform. Thus, $(x_{k+1} - x_{k}) = h$ for some elected $h$ and for $k = 0, \ldots, n-1$. The integral becomes a sum:
+\begin{eqnarray}
+\int \limits _{0} ^{\pi} \sin(x)dx &\approx& \sum \limits _{k=0} ^{n-1} (s_{k+1} +s_{k}) \\ \nonumber
+&=& \frac{h}{2} \left[ s_{0} + 2 \sum \limits _{k=1} ^{n-1} s_{k} + s_{n}  \right] \label{eq:riem}
+\end{eqnarray}
+
+\noindent where you can shows that the second equality holds by the principle of mathematical induction.
+
+\begin{clue}
+Do you remember the name of the functions for which the sum on (\ref{eq:riem}) converges to a finite value?
+\end{clue}
+
+\subsubsection{Generalization} \label{section:gen}
+It is possible to generalize this reasoning as follows. Let $f: \mathbb{R} \rightarrow \mathbb{R}$ be a continuous function in the interval $[a,b]$. The ``grid version'' of $f$ is given by the sets of lines that connect the sequence of coordinates $(x_{i},y_{i})_{i=0}^{n}$ where $x_{i} = a + ih$ and $y_{i} = f(x_{i})$ for $i = 0, \ldots, n$, $n \geq 1$, $h = (b-a)/n$. Then,
+\begin{definition} (Trapezoidal Integral)
+\begin{equation}
+\int \limits _{a} ^{b} f(x)dx \approx \frac{h}{2} \left[ y_{0} + 2 \sum \limits _{k=1} ^{n-1} y_{k} + y_{n}  \right].
+\end{equation}
+\end{definition}
+
+\begin{exercise} (Trapezoidal Integration) \label{exercise:trap}
+Write down a code that has a general function for trapezoidal integration.\\
+\noindent Answer: see code ``integration.jl''.
+\end{exercise}
+
+
+\begin{exercise} (Trapezoidal Integration of the Sine Function)
+Integrate (\ref{eq:trap}) with $n=10,50,100,500$ using your code of Exercise \ref{exercise:trap}. How do these values differ from the values that you can get in your calculator. Hint: switch to radians.\\
+\noindent  Answer: see code ``integration.jl''. Note that the desired integral is identical to $2$ and that the method is less imprecise as $n$ increases.
+\end{exercise}
+
+\subsection{Monte-Carlo Integration}
+Take the same framework as in Section \ref{section:gen}.  The first mean value theorem for integrals establishes that the integral of a function over the interval $[a,b]$ is the mean value of $f$ over the interval $[a,b]$ multiplied by the length of the interval, $b-a$. Then, a simulated integral is calculated as follows: (i) take $n$ draws from a uniform distribution over $[a,b]$; (ii) evaluate $f$ at each of them; (iii) take an average; (iv) multiply the average by the length of the interval. Put differently, if $x_{i}$ is a typical random draw,
+\begin{equation}
+\int \limits _{a} ^{b} f(x)dx \approx (b-a) \frac{1}{n} \sum \limits _{i=1} ^{n} f(x_{i}). 
+\end{equation}  
+
+\noindent This approach to numerical integration is called Monte Carlo integration.
+
+\begin{exercise} (Monte Carlo Integration) \label{exercise:mt}
+Write down a code that has a general function for Monte Carlo Integration.\\
+\noindent Answer:  see code ``integration.jl''.
+\end{exercise}
+
+\begin{exercise} (Monte Carlo Integration of the Sine Function)
+Integrate (\ref{eq:trap}) with $n=10,50,100,500$ using your code of Exercise \ref{exercise:mt}. Use the Distributions package in Julia and set the seed to one. How do these values differ from the values that you can get in your calculator and in Exercise \ref{exercise:trap}. Why?\\
+\noindent Answer:  see code ``integration.jl''. For small values of $n$ the trapezoidal integration is more precise. This is because Monte Carlo integration may have a couple of draws that give extreme values of the function to be integrated. As $n$ grows, Monte Carlo integration is more precise. This is specially important because for some functions linear interpolation is inaccurate. 
+\end{exercise}
+
+\section{How to Maximize a Likelihood}
+
+\begin{exercise} (Basic Optimization)
+\noindent The Rosenbrock function helps to illustrate how to maximize a function that involves sums. This is useful in this context because log-likelihoods are sums. Write down a code that minimizes the  Rosenbrock function with the Broyden-Fletcher-Goldfarb-Shanno algorithm in Julia. Examine the function and provide an initial condition (the length of this vector provides the dimension of the elements in the domain of the function. Use $10$). Hint: use Google.\\
+\noindent Answer: see the code ``likelihood.jl''.
+\end{exercise}
+
+Consider a sample of N i.i.d. observations:
+\begin{equation}
+x_{i} \sim \mathcal{N}(0,\theta)
+\end{equation}
+\noindent for $i = 1, \ldots, N$. $\theta$ is the variance and you want to estimate it. 
+
+\begin{exercise} (Basics) \label{exercise:basics}
+(i) Write down the individual likelihood, the sample likelihood, and the sample log-likelihood; (ii) write down the sample score; (iii) calculate the Maximum Likelihood Estimator (MLE) of $\theta$ as a function of the data.
+\noindent Answer:\\
+\noindent (i) The individual likelihood is: $L_{i}(\theta|x_{i}) = \frac{1}{\sqrt{2\pi\theta}} \exp^{\left( -\frac{ \left( x_{i} - 0 \right)^{2}}{2 \theta} \right)}$ . The sample likelihood is: $L(\theta | x_{1}, \ldots, x_{n}) = \prod \limits _{i=1} ^{n} L_{i}(\theta|x_{i}) $ . The sample log-likelihood is $l(\theta | x_{1}, \ldots, x_{n}) = - \frac{1}{2} \log (2 \pi) - \frac{1}{2} \log \theta - \frac{1}{n} \sum \limits _{i=1} ^{n} \frac{ \left( x_{i} - 0 \right)^{2}}{2 \theta} $.\\
+\noindent (ii) The sample score is $s(\theta | y) = \frac{\partial l(\theta | x_{1}, \ldots, x_{n})}{\partial \theta} = -\frac{1}{2\theta} + \frac{1}{n} \sum \limits _{i=1} ^{n} \frac{ \left( x_{i} - 0 \right)^{2}}{2 \theta^2}$. \\
+\noindent (iii) To calculate the $MLE$ set the score to zero and solve for $\theta$: $\hat{\theta}^{MLE} = \frac{1}{n} \sum \limits _{i=1} ^{n} \left( x_{i} - 0 \right)^{2}$.\\
+
+\end{exercise}
+
+\begin{exercise} (Estimation I) \label{exercise:manual}
+In Exercise \ref{exercise:basics} you find that the MLE estimator for $\theta$ has a closed and easy functional form. Actually, you do not need numeric maximization to obtain it. Simulate your own data with $\theta = 1$ and then recover the parameter by ML. Use the Distributions package in Julia, $10,000$ observations, and set the seed to one. Set the Do not use a maximization routine. Use sums and multiplications.\\ 
+\noindent Answer: see the code ``likelihood.jl''.
+\end{exercise}
+
+\begin{exercise} (Estimation II) \label{exercise:numeric}
+Use the data that you simulated to estimate $\theta$ by ML. Use the Broyden-Fletcher-Goldfarb-Shanno algorithm in Julia. Hint: recall that this algorithm minimizes.\\
+\noindent Answer: see the code ``likelihood.jl''.
+\end{exercise}
+
+\begin{exercise} 
+Compare the estimate in Exercise \ref{exercise:manual} to the estimate in Exercise \ref{exercise:numeric}. Do they differ? Why? Which one is better?\\
+\noindent Answer: although the optimization routine is powerful, the second estimate is an approximation of the first. The more complex the likelihood function, the bigger the difference between these two estimates. Unfortunately, the more complex the likelihood function,  the more difficult is to obtain close form MLE estimators. 
+\end{exercise}
+
+
+ 
+
+
+\end{document}

@@ -1,0 +1,32 @@
+%Input preamble
+\input{HelperFiles/DDSE_SolutionHelp}
+
+\begin{document}
+
+\title{\textbf{Structural Econometrics with Implementations in Julia}}
+\author{Jorge Luis Garc\'{i}a\thanks{Department of Economics, the University of Chicago (jorgelgarcia@uchicago.edu).} $^{,}$\thanks{A rough version of this document with an implementation in Python was delivered as an assignment when I was a TA for Econ 350 at the University of Chicago. I developed it together with Yike Wang, who I thank for many useful comments.}}
+\date{First Draft: June 1, 2014 \\ This Draft: \today}
+\maketitle
+
+\begin{abstract}
+\noindent This document briefly describes what are structural models in Economics. It distinguishes structural and non-structural estimation as approaches that enable to answer different research questions. Also, it discusses parametric and non-parametric assumptions as auxiliary means that help to recover parameters enabling to answer these research questions. The document builds on \citet{keane2011structural}. The difference between this document and that paper is that this document intends to be more concrete and schematic about how the modeling approaches behave, it skips the least algebra steps in all the derivations, and it provides practical examples. Finally, it provides extra exercises teaching basic tools of Computational Econometrics and implements them in Julia. Almost all of the implementations are available in Python as well, for the sake of language and efficiency comparison.
+\end{abstract}
+
+%Input Sections
+\input{Sections/Introduction}
+\input{Sections/Models}
+\input{Sections/dynamic}
+
+\clearpage
+\bibliographystyle{chicago}
+\bibliography{BibtexFiles/DDSE_SolutionBib}
+\clearpage
+
+\input{Sections/appendix}
+
+
+\end{document}
+
+
+
+
