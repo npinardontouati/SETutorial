@@ -26,7 +26,7 @@ mmles = vcat(MPsamples[1],MPsamples[2],MPsamples[3],MPsamples[4])
 tp = [.5, .4, .4, .8, 1, .3]
 
 # mean, median, min, max, and std in H samples
-tpH = zeros(5,1)
+tpH = zeros(6,5)
 
 for p = 1:P
         tpH[p,1] = mean(mmlesm[:,p])
