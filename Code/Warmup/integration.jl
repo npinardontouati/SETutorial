@@ -2,8 +2,6 @@
 # Date: 7/1/2014
 
 # Import packages
-using Plotly                                 #this package needs to be registred
-Plotly.signin("jorgelgarcia", "h2ajfsbinv")  #place yout username and your password here once you register
 using Distributions
 
 # Set a seed
@@ -13,31 +11,6 @@ srand(1)
 n = 1000
 x = linspace(0, 2*pi, n)
 s = sin(x)
-
-# Sine function
-# simple plot
-layout = [
-  "title" => "One Cycle of the Sine Function",
-  "xaxis" => [
-    "title" => "x",
-    "showgrid" => true,
-    "zeroline" => false
-  ],
-  "yaxis" => [
-    "title" => "sine(x)",
-    "showline" => false
-  ]
-]
-
-trace = [
-  "x" => [x],
-  "y" => [s],
-  "name" => "sin(x)",
-  "type" => "scatter"
-]
-
-plot = Plotly.plot([trace], ["layout" => layout])
-ploturl = plot["url"]
 
 # Trapezoidal integration
 # function

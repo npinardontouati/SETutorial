@@ -26,7 +26,7 @@ Create a grid of $1,000$ points to plot one cycle in the unitary circle of the s
 
 \indent Roughly, with $1,000$ points, the computer: (i) evaluates the sine function, (ii) puts together coordinates, (iii) scatters them, (iv) joins them through lines. This method has a name: \emph{linear interpolation}. This is how linear interpolation happens. A given point $x$ lies in the interval $[x_{k},x_{k+1}]$, for an arbitrary $k$. In that interval, the computer defines a function that passes through the points $(x_{k},s_{k})$ and $(x_{k+1},s_{k+1})$:
 \begin{equation}
-S_{k}(x) = s_{k} + \frac{s_{k+1} - s_{k}}{x_{k+1} = x_{k}} (x - x_{k}). \label{eq:interpol}
+S_{k}(x) = s_{k} + \frac{s_{k+1} - s_{k}}{x_{k+1} - x_{k}} (x - x_{k}). \label{eq:interpol}
 \end{equation}
 
 \noindent $S_{k}(x)$ is identical to $sin(x)$ at $x_{k}$ and $x_{k+1}$; between these points, $S_{k}(x)$ is linear.\\

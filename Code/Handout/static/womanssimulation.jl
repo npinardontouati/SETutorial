@@ -69,5 +69,5 @@ end
 
 # Save to a .csv file
 womanssample = [y z kappa n d w]
-womanssample = DataFrame(womanssample)
-writetable("womanssample.csv",womanssample,header=true)
+#womanssample = DataFrame(womanssample)
+#writetable("womanssample.csv",womanssample,header=true)

@@ -23,7 +23,7 @@ println(rosenbrockmin)
 # Likelihood (normal mean zero unknown variance = 1)
 # generate data
 N = 10000
-x = [rand(Normal(0,1)) for i = 1:N]
+x = rand(Normal(0,1),N)
 
 # closed form mle
 mle = sum(x.^2)/N
@@ -34,7 +34,7 @@ function llknorm(theta)
         # transform parameter to avoid evaluating
         # outside function domain
         theta  = exp(theta)
-        l = log(theta) + (1/(N*theta))*sum(x.^2)
+        l = log(theta) + (1./(N*theta))*sum(x.^2)
         return l[1]
 end
 

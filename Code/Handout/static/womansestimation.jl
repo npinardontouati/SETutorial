@@ -10,7 +10,7 @@ using DataFrames
 srand(1)
 
 # Read data
-womanssample = matrix(readtable("womanssample.csv"))
+# womanssample = matrix(readtable("womanssample.csv"))
 
 # Define variables
 T = 6
