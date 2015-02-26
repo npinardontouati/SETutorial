@@ -10,7 +10,7 @@ using DataFrames
 srand(1)
 
 # Read data
-womanssample = matrix(readtable("womanssample.csv"))
+# womanssample = matrix(readtable("womanssample.csv"))
 
 # Define variables: individuals, parameters, periods, bsample size, samples
 N = 1000; P = 6; T = 6; M=convert(Int,N/2); B = 1000
