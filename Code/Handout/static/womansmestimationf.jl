@@ -74,8 +74,8 @@ function mestimationmles(H)
                 end
 
                 # optimization
-                optimal = optimize(wllks, [theta0], method = :nelder_mead)
-                mles = optimal.minimum
+                optimal = optimize(wllks, theta0, NelderMead())
+                mles = optimal.minimizer
                 mles[6] = (1/(1 + exp(-mles[6])) - .5)*2*exp(mles[2])*exp(mles[5])
                 mles[2] = exp(mles[2])
                 mles[5] = exp(mles[5])
