@@ -56,7 +56,7 @@ end
 theta0 = [.5, log(.4), .4, .8, log(1), -log((2*.4*1)/(.3+.4*1) -1)]
 
 # display optimization
-optimal = optimize(llks, theta0, method = :nelder_mead)
+optimal = optimize(llks, theta0, NelderMead())
 mles = optimal.minimizer
 mles[6] = (1/(1 + exp(-mles[6])) - .5)*2*exp(mles[2])*exp(mles[5])
 mles[2] = exp(mles[2])
