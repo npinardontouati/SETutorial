@@ -10,7 +10,7 @@ using DataFrames
 srand(1)
 
 # Read data
-womandsample = matrix(readtable("womandsample.csv"))
+womandsample = Array(readtable("womandsample.csv"))
 
 # Define variables
 T = 6; N = 1000
@@ -79,7 +79,7 @@ end
 #xistar vector function
 xistarvf = [xistarTm0]
 for t = 1:T-1
-        xistarvf = [eval(parse("xistarTm" * string(t))),xistarvf]
+        xistarvf = [eval(parse("xistarTm" * string(t)));xistarvf]
 end
 
 # Likelihood
@@ -129,8 +129,8 @@ end
 theta0 = [0.5, log(0.4), 0.2, 0.8, 0.9, 0.85, log(1.0),-log((2*.4*1.0)/(.3+.4*1.0) - 1),0.2]
 
 # display optimization
-optimal = optimize(wllkd, [theta0], method = :nelder_mead)
-mled = optimal.minimum
+optimal = optimize(wllkd, theta0, NelderMead())
+mled = optimal.minimizer
 mled[2] = exp(mled[2])
 mled[7] = exp(mled[7])
 mled[8] = (1/(1+exp(-mled[8])) - .5)*2*mled[2]*mled[7]
