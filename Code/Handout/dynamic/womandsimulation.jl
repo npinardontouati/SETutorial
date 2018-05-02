@@ -103,7 +103,7 @@ end
 #xistar vector function
 xistarvf = [xistarTm0]
 for t = 1:T-1
-        xistarvf = [eval(parse("xistarTm" * string(t))),xistarvf]
+        xistarvf = [eval(parse("xistarTm" * string(t)));xistarvf]
 end
 
 # xistar, d, h
